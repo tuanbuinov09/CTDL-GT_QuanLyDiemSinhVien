@@ -25,7 +25,7 @@ void box(int x, int y, int width, int height, int backgroundColor, int textColor
 	setTextColor(textColor);
 
 	if (textAlignment == TEXT_LEFT) {
-		gotoXY(x, y + height / 2);
+		gotoXY(x + 2, y + height / 2);
 		cout << text;
 	}
 
@@ -41,12 +41,12 @@ void box(int x, int y, int width, int height, int backgroundColor, int textColor
 }
 void n_box(int x, int y, int width, int height, int backgroundColor, int textColor, string* text, int number) {
 	for (int i = 0; i < number; i++) {
-		box(x, y + (i * 4), width, height, backgroundColor, textColor, text[i], TEXT_CENTER);
+		box(x, y + (i*2), width, height, backgroundColor, textColor, text[i], TEXT_LEFT);
 	}
 }
 void menu(boolean isInit) {
 	ShowCur(0);
-	int x = 2, y = 1, width = 40, height = 1;
+	int x = 2, y = 2, width = 50, height = 1;
 	int textColor = 0;
 	int backgroundColor = 14;
 	int backgroundColorChoose = 15;
@@ -91,8 +91,8 @@ void menu(boolean isInit) {
 	{
 		if (isClicked)
 		{
-			box(xPointerOld, yPointerOld, width, height, backgroundColor, textColor, options[iOld], TEXT_CENTER);
-			box(xPointer, yPointer, width, height, backgroundColorChoose, textColor, options[i], TEXT_CENTER);
+			box(xPointerOld, yPointerOld, width, height, backgroundColor, textColor, options[iOld], TEXT_LEFT);
+			box(xPointer, yPointer, width, height, backgroundColorChoose, textColor, options[i], TEXT_LEFT);
 			xPointerOld = xPointer;
 			yPointerOld = yPointer;
 			isClicked = false;
@@ -162,7 +162,7 @@ void menu(boolean isInit) {
 			c = _getch();
 			if (c == UP && i != 0)
 			{
-				yPointer -= 4;
+				yPointer -= 2;
 				if (i > 0)
 				{
 					iOld = i;
@@ -172,7 +172,7 @@ void menu(boolean isInit) {
 			}
 			else if (c == DOWN && i != (number - 1))
 			{
-				yPointer += 4;
+				yPointer += 2;
 				if (i < number)
 				{
 					iOld = i;
