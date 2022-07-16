@@ -2,10 +2,18 @@
 //
 
 #include <iostream>
+#include "struct.h"
+#include "mylib.h"
+#include "helper-functions.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	SetWindow(WIDTH_MAIN_FRAME, HEIGHT_MAIN_FRAME);
+	resizeConsole(WIDTH_MAIN_FRAME, HEIGHT_MAIN_FRAME);
+	DisableResizeWindow();
+	ShowScrollbar(false);
+	menu(true);
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

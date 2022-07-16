@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -5,6 +6,48 @@
 #include <conio.h>
 
 #define MAXLOPTINCHI 10000
+
+#define WIDTH_MAIN_FRAME 160
+#define HEIGHT_MAIN_FRAME 40
+
+//=================== POP UP ===================
+#define WIDTH_POP_UP 61;
+#define HEIGHT_POP_UP 20;
+#define BACKGROUND_COLOR_POP_UP 7;
+
+#define COLOR_BLACK 0
+#define COLOR_DEFAULT 51
+#define COLOR_BACKGROUND_DEFAULT 51
+#define COLOR_RED 4
+#define COLOR_LIGHT_RED 12
+#define COLOR_GREEN_LIGHT 2
+#define COLOR_YELLOW 6
+#define COLOR_LIGHT_YELLOW 14
+#define COLOR_WHITE 7
+#define COLOR_BRIGHT_WHITE 15
+
+#define TEXT_LEFT -1
+#define TEXT_CENTER 0
+#define TEXT_RIGHT 1
+
+
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+#define BACKSPACE 8
+#define ESC 27
+#define TAB 9
+#define ENTER 13
+#define F1 59
+#define F2 60
+#define F3 61
+#define F4 62
+#define DELETE_KEY 83
+#define INSERT_KEY 82
+#define YES 1
+#define NO -1
+#define CTRL_F 6
 
 /*
 * — Cau truc Danh Sach Sinh Vien —

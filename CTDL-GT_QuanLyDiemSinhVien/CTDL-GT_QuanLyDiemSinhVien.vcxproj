@@ -142,7 +142,26 @@
     <ClCompile Include="CTDL-GT_QuanLyDiemSinhVien.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="mylib.h" />
     <ClInclude Include="struct.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\1.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\10.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\11.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\12.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\2.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\3.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\4.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\5.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\6.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\7.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\8.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\9.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSLOPTC.txt" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSMH.TXT" />
+    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSSV.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
