@@ -1,11 +1,8 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <math.h>
-#include <conio.h>
+
 
 #define MAXLOPTINCHI 10000
+#define MAXDSSV 5000
 
 #define WIDTH_MAIN_FRAME 160
 #define HEIGHT_MAIN_FRAME 40
@@ -62,13 +59,23 @@ struct SinhVien {
 	char MALOP[15]; //Ma lop
 };
 
-struct NodeSV
-{
-	SinhVien SV;
-	NodeSV* next;
+struct ListSinhVien {
+	int number = 0;
+	SinhVien sinhvien[MAXDSSV];
 };
 
-typedef NodeSV* LISTSV;
+struct Index {
+	int index; //vi tri cua sinh vien trong danh sach sinh vien
+	char HO[30]; //Ho Va Ten Lot
+	char TEN[10]; //ten
+
+};
+
+struct IndexList { //DANH SACH TUYEN TINH CAP PHAT DONG
+	int number = 0;
+	Index nodes[MAXDSSV];
+};
+
 
 /*
 * — Cau truc Danh Sach Dang Ky —

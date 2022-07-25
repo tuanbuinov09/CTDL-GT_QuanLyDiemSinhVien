@@ -1,10 +1,11 @@
-#pragma once
-#include "struct.h"
-#include <rpcndr.h>
-#include "mylib.h"
-#include <iomanip> 
+﻿#pragma once
+#include "file-handling.h"
+#include <iomanip>
+#include <string>
 
 using namespace std;
+void listSinhVienTable(ListSinhVien& listSinhVien, IndexList& sortedListSinhVien, bool isSearch);
+ListSinhVien listSinhVien;
 string generateSpace(int length) {
 	string s;
 	while (s.length() < length - 1) {
@@ -52,28 +53,27 @@ void menu(boolean isInit) {
 	int backgroundColorChoose = 15;
 
 	if (isInit) {
-	/*	readEmployeeFile(employeeList);
+		readFileSinhVien(listSinhVien);
 
-		initProductList(productList);
+		/*initProductList(productList);
 		readProductFile(productList);*/
 	}
 
 	
-	const int number = 13;
+	const int number = 12;
 	string options[number] = {
 		"1. QUAN LY LOP TIN CHI",
 		"2. IN DSSV CON DANG KY LOP TIN CHI",
 		"3. QUAN LY SINH VIEN",
-		"4. IN DANH SACH SINH VIEN",
-		"5. QUAN LY MON HOC",
-		"6. IN DANH SACH MON HOC",
-		"7. DANG KY LOP TIN CHI",
-		"8. HUY LOP TIN CHI",
-		"9. NHAP DIEM",
-		"10. IN BANG DIEM",
-		"11. SINH VIEN HUY DANG KY",
-		"12. IN DIEM TB KET THUC KHOA",
-		"13. BANG DIEM TONG KET CUA CAC SV THUOC LOP",
+		"4. QUAN LY MON HOC",
+		"5. IN DANH SACH MON HOC",
+		"6. DANG KY LOP TIN CHI",
+		"7. HUY LOP TIN CHI",
+		"8.NHAP DIEM",
+		"09 IN BANG DIEM",
+		"10. SINH VIEN HUY DANG KY",
+		"11. IN DIEM TB KET THUC KHOA",
+		"12. BANG DIEM TONG KET CUA CAC SV THUOC LOP",
 	};
 
 	n_box(x, y, width, height, backgroundColor, textColor, options, number);
@@ -110,23 +110,22 @@ void menu(boolean isInit) {
 				clearConsole();
 				//productTable(productList, sortedProductList, false);
 			}
-			else if (i == 1) { //QUAN LY NHAN VIEN
+			else if (i == 1) { //QUAN LY SINH VIEN
 				setBackgroundColor(COLOR_BLACK);
 
-			/*	IndexList sortedEmployeeList;
-				employeeListToEmployeeIndexList(employeeList, sortedEmployeeList);
-				sortEmployeeListByName(sortedEmployeeList);*/
+				
 
-				clearConsole();
-				//employeeTable(employeeList, sortedEmployeeList, false);
 			}
 
-			else if (i == 2) { //TAO HOA DON MOI
-				//Invoice invoice;
+			else if (i == 2) { //QUAN LY SINH VIEN
 				setBackgroundColor(COLOR_BLACK);
+
+				IndexList sortedListSinhVien;
+				listSinhVienToListIndexSinhVien(listSinhVien, sortedListSinhVien);
+				sapXepListSinhVienTheoTen(sortedListSinhVien);
+
 				clearConsole();
-				//InvoiceDetailList invoiceDetailList;/*
-				//addInvoicePopUp(productList, employeeList, -1);*/
+				listSinhVienTable(listSinhVien, sortedListSinhVien, false);
 			}
 
 			else if (i == 3) { //IN HOA DON
@@ -516,3 +515,352 @@ void coutBox(int x, int y, int width, int align, string text) {
 	}
 
 }
+
+
+//=================== BANG SINH VIEN ===================
+void listSinhVienTable(ListSinhVien& listSinhVien, IndexList& sortedListSinhVien, bool isSearch) {
+	ShowCur(0);
+	titleBox(1, 3, "QUAN LY SINH VIEN");
+	int width = 20;
+	int height = 2;
+	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
+	int y = getCenterY(HEIGHT_MAIN_FRAME, height * 13);
+	int backgroundColor = COLOR_WHITE; // chinh mau vien table
+	int textColor = COLOR_RED;
+	setBackgroundColor(0);
+	setTextColor(COLOR_WHITE);
+
+	int currentIndex = 0;
+	int row = 12;
+	const int column = 7;
+	string title[column] = { "STT", "MASV", "HO", "TEN", "PHAI", "SDT", "MALOP"};
+	int cellWidth[column] = { 10, 20, 25, 15, 10, 15, 20 };
+
+	int iy = y + 2;
+
+	for (int k = currentIndex; k < row; k++) {
+		int ix = x;
+		for (int j = 0; j < column; j++) {
+			box3(ix, iy, cellWidth[j], height, backgroundColor, textColor, "");
+			ix += cellWidth[j];
+		}
+		iy = iy + 2;
+	}
+	tableHeader(x, y, cellWidth, column, backgroundColor, textColor, title);
+	tableFooter(x, iy + 1, cellWidth, column, backgroundColor, textColor, "");
+
+
+	int keyBoxWidth = hotKeyBox(x + 1, iy + 2, "ESC", "QUAY LAI"); keyBoxWidth += 5;
+	keyBoxWidth += hotKeyBox(x + keyBoxWidth, iy + 2, "INSERT", "THEM"); keyBoxWidth += 5;
+	keyBoxWidth += hotKeyBox(x + keyBoxWidth, iy + 2, "ENTER", "HIEU CHINH"); keyBoxWidth += 5;
+	keyBoxWidth += hotKeyBox(x + keyBoxWidth, iy + 2, "DELETE", "XOA"); keyBoxWidth += 5;
+	keyBoxWidth += hotKeyBox(x + keyBoxWidth, iy + 2, "CTRL + F", "TIM KIEM"); keyBoxWidth += 5;
+	int xPage = x + 120 + 1;
+	int yPage = iy + 2;
+
+	int xPointer = x + 1;
+	int yPointer = y + 3;
+	int xPointerOld = xPointer;
+	int yPointerOld = yPointer;
+	int i = 0;
+	int iOld = i;
+	bool isUpDown = true;
+	bool isLeftRight = true;
+	bool isInit = false;
+	bool isFromUp = false;
+
+	while (true) {
+		if (isInit) {
+			setTextColor(COLOR_BRIGHT_WHITE);
+			setBackgroundColor(COLOR_BLACK);
+			int iy = y + 3;
+			for (int k = 0; k < row; k++) {
+				int ix = xPointer;
+				for (int j = 0; j < column; j++) {
+					gotoXY(ix, iy);
+					cout << generateSpace(cellWidth[j]);
+					ix += cellWidth[j];
+				}
+				iy = iy + 2;
+			}
+			isInit = false;
+		}
+
+		if (!isSortedListSinhVienEmpty(sortedListSinhVien)) {
+			if (isLeftRight) {
+				setTextColor(COLOR_BRIGHT_WHITE);
+				setBackgroundColor(COLOR_BLACK);
+
+				int ix;
+				int index;
+				iy = y + 3;
+				for (int k = currentIndex; k < row + currentIndex; k++) {
+					if (k >= sortedListSinhVien.number) break;
+					else {
+						index = sortedListSinhVien.nodes[k].index;
+						ix = x + 1;
+
+						coutBox(ix, iy, cellWidth[0], TEXT_RIGHT, to_string(k + 1));
+						ix += cellWidth[0];
+
+						coutBox(ix, iy, cellWidth[1], TEXT_LEFT, listSinhVien.sinhvien[index].MASV);
+						ix += cellWidth[1];
+
+						coutBox(ix, iy, cellWidth[2], TEXT_LEFT, sortedListSinhVien.nodes[k].HO);
+						ix += cellWidth[2];
+
+						coutBox(ix, iy, cellWidth[3], TEXT_LEFT, sortedListSinhVien.nodes[k].TEN);
+						ix += cellWidth[3];
+
+						string strPhai="Nam";
+						if (listSinhVien.sinhvien[index].PHAI != true) {
+							strPhai = "Nu";
+						}
+						coutBox(ix, iy, cellWidth[4], TEXT_LEFT, strPhai);
+						ix += cellWidth[4];
+
+						coutBox(ix, iy, cellWidth[5], TEXT_LEFT, listSinhVien.sinhvien[index].SODT);
+						ix += cellWidth[5];
+
+						coutBox(ix, iy, cellWidth[6], TEXT_LEFT, listSinhVien.sinhvien[index].MALOP);
+						ix += cellWidth[6];
+					}
+					iy = iy + 2;
+				}
+
+				setTextColor(COLOR_LIGHT_YELLOW);
+				gotoXY(xPage, yPage);
+				cout << generateSpace(10);
+				gotoXY(xPage, yPage);
+				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListSinhVien.number / row + 1;
+
+				i = 0;
+				iOld = i;
+				yPointer = y + 3;
+				yPointerOld = yPointer;
+				if (isFromUp) {
+					yPointer = y + 3 + 2 * (row - 1);
+					yPointerOld = yPointer;
+					i = row - 1;
+					iOld = i;
+					isFromUp = false;
+				}
+				isLeftRight = false;
+			}
+
+			if (isUpDown) {
+				gotoXY(xPointerOld + cellWidth[0] + 1, yPointerOld);
+				setBackgroundColor(COLOR_BLACK);
+				setTextColor(COLOR_BRIGHT_WHITE);
+				int index = sortedListSinhVien.nodes[iOld + currentIndex].index;
+				cout << listSinhVien.sinhvien[index].MASV;
+
+				gotoXY(xPointer + cellWidth[0] + 1, yPointer);
+				setBackgroundColor(COLOR_RED);
+				setTextColor(COLOR_LIGHT_YELLOW);
+				index = sortedListSinhVien.nodes[i + currentIndex].index;
+				cout << listSinhVien.sinhvien[index].MASV;
+
+				xPointerOld = xPointer;
+				yPointerOld = yPointer;
+
+				isUpDown = false;
+
+			}
+		}
+
+		char key = _getch();
+		switch (key)
+		{
+		case -32: //DIEU HUONG, THEM, SUA SINH VIEN
+		{
+			key = _getch();
+			if (key == LEFT && currentIndex != 0)
+			{
+				currentIndex -= row;
+				isInit = true;
+				isLeftRight = true;
+				isUpDown = true;
+			}
+			else if (key == RIGHT && (currentIndex + row) < sortedListSinhVien.number) {
+				currentIndex += row;
+				isInit = true;
+				isLeftRight = true;
+				isUpDown = true;
+			}
+			else if (key == UP)
+			{
+				if (i == 0 && currentIndex != 0)
+				{
+					isLeftRight = true;
+					isFromUp = true;
+					isInit = true;
+					currentIndex -= row;
+
+				}
+				else if (i > 0)
+				{
+					yPointer -= 2;
+					iOld = i;
+					i--;
+				}
+				isUpDown = true;
+			}
+			else if (key == DOWN && (i + currentIndex) < sortedListSinhVien.number - 1)
+			{
+				if (i == row - 1) {
+					isInit = true;
+					isLeftRight = true;
+					currentIndex += row;
+				}
+				else if (i < row)
+				{
+					yPointer += 2;
+					iOld = i;
+					i++;
+				}
+				isUpDown = true;
+			}
+
+			//THEM SINH VIEN
+			else if (key == INSERT_KEY)
+			{
+				if (isListSinhVienFull(listSinhVien)) { //DANH SACH SINH VIEN DA DAY
+					string message = "DANH SACH SINH VIEN DA DAY";
+					int k = notificationPopUp(message);
+					if (k == YES) {}
+				}
+				else { //DANH SACH SINH VIEN CHUA DAY
+					/*int k = addEmployeePopUp(employeeList);
+					if (k == YES) {
+						delete[] sortedListSinhVien.nodes;
+						employeeListToEmployeeIndexList(employeeList, sortedListSinhVien);
+						sortEmployeeListByName(sortedListSinhVien);
+
+						clearConsole();
+						employeeTable(employeeList, sortedListSinhVien, false);
+					}*/
+				}
+
+				clearConsole();
+				//employeeTable(employeeList, sortedListSinhVien, isSearch);
+			}
+
+			//XOA SINH VIEN
+			else if (key == DELETE_KEY && !isSortedListSinhVienEmpty(sortedListSinhVien))
+			{
+				/*string message = "BAN MUON XOA SINH VIEN NAY?";
+				bool isAccepted = warningPopUp(message);
+				int index = sortedListSinhVien.nodes[i + currentIndex].index;
+				if (isAccepted)
+				{
+					if (isEmployeeHasInvoiceList(*employeeList.employee[index])) {
+						string message = "SINH VIEN NAY DA LAP HOA DON, KHONG XOA DUOC.";
+						int t = notificationPopUp(message);
+						if (t == YES) {};
+					}
+					else {
+						deleteEmployee(employeeList, employeeList.employee[index]->employeeId);
+						writeEmployeeFile(employeeList);
+
+						delete[] sortedListSinhVien.nodes;
+						employeeListToEmployeeIndexList(employeeList, sortedListSinhVien);
+						sortEmployeeListByName(sortedListSinhVien);
+
+						clearConsole();
+						employeeTable(employeeList, sortedListSinhVien, false);
+					}
+				}
+				writeEmployeeFile(employeeList);
+				clearConsole();
+				employeeTable(employeeList, sortedListSinhVien, isSearch);*/
+			}
+
+			break;
+		}
+
+		case ESC: //QUAY LAI
+		{
+			if (isSearch) {
+				ShowCur(0);
+				setBackgroundColor(COLOR_BLACK);
+				gotoXY(x + 1, 5);
+				cout << generateSpace(50);
+
+				delete[] sortedListSinhVien.nodes;
+				listSinhVienToListIndexSinhVien(listSinhVien, sortedListSinhVien);
+				sapXepListSinhVienTheoTen(sortedListSinhVien);
+
+				ShowCur(0);
+				isSearch = false;
+				isInit = true;
+				isLeftRight = true;
+				isUpDown = true;
+			}
+			else {
+				delete[] sortedListSinhVien.nodes;
+				clearConsole();
+				menu(false);
+			}
+			break;
+		}
+
+		case ENTER: // SUA SINH VIEN TRONG DANH SACH SINH VIEN
+		{
+			//if (!isSortedEmployeeListEmpty(sortedListSinhVien))
+			//{
+			//	int index = sortedListSinhVien.nodes[i + currentIndex].index;
+			//	int k = editEmployeePopUp(employeeList, index, sortedListSinhVien);
+			//	if (k == YES) { // DA HIEU CHINH SINH VIEN
+			//		clearConsole();
+			//		employeeTable(employeeList, sortedListSinhVien, false);
+			//	}
+			//	else {//NHAN ESC
+			//		clearConsole();
+			//		employeeTable(employeeList, sortedListSinhVien, isSearch);
+			//	}
+			//}
+			break;
+		}
+
+		case CTRL_F: // TIM KIEM SINH VIEN
+		{
+			setTextColor(COLOR_BRIGHT_WHITE);
+			setBackgroundColor(COLOR_BLACK);
+			string text = "NHAP TEN: ";
+			gotoXY(x + 1, 5);
+			cout << text << generateSpace(30);
+
+			string name = "";
+			gotoXY(x + text.length() + 1, 5);
+			char c = char();
+			//upperCaseWhileTypingEnter(x + text.length() + 1, 5, name, c);
+
+			if (c == ENTER) {
+				delete[] sortedListSinhVien.nodes;
+				//searchEmployeeListByName(employeeList, sortedListSinhVien, trim(name));
+
+				ShowCur(0);
+				isInit = true;
+				isLeftRight = true;
+				isUpDown = true;
+				isSearch = true;
+
+			}
+			else if (c == ESC) {
+				ShowCur(0);
+				setBackgroundColor(COLOR_BLACK);
+				gotoXY(x + 1, 5);
+				cout << generateSpace(50);
+			}
+			break;
+		}
+
+		default:
+			break;
+		}
+
+	}
+
+}
+
