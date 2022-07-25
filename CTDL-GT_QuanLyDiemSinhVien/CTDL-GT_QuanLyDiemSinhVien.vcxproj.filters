@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\DSDK">
-      <UniqueIdentifier>{6cbcaa3a-8af9-40cd-b7b1-25a09a72ac59}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CTDL-GT_QuanLyDiemSinhVien.cpp">
@@ -32,52 +29,11 @@
     <ClInclude Include="helper-functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSLOPTC.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSMH.TXT">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSSV.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\1.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\2.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\3.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\4.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\5.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\6.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\7.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\8.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\9.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\10.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\11.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
-    <Text Include="..\..\quanlysinhvien-master\quanlysinhvien-master\data\DSDK\12.txt">
-      <Filter>Resource Files\DSDK</Filter>
-    </Text>
+    <ClInclude Include="file-handling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SinhVienHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
