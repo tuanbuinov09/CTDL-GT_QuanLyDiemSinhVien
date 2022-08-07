@@ -24,6 +24,7 @@
     <ProjectGuid>{f7162c5a-3b18-489e-833e-d7cb46b5e565}</ProjectGuid>
     <RootNamespace>CTDLGTQuanLyDiemSinhVien</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>QuanLyDiemSinhVien</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,11 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CTDL-GT_QuanLyDiemSinhVien.cpp" />
+    <ClCompile Include="QuanLyDiemSinhVien.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file-handling.h" />
     <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="LopHandler.h" />
     <ClInclude Include="mylib.h" />
     <ClInclude Include="SinhVienHandler.h" />
     <ClInclude Include="struct.h" />

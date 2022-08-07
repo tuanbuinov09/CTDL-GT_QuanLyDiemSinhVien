@@ -1,6 +1,6 @@
 ﻿#pragma once
 using namespace std;
-
+#include "string"
 
 //KIEM TRA DANH SACH SINH VIEN DAY
 bool isListSinhVienFull(ListSinhVien& listSinhVien) {
@@ -52,22 +52,6 @@ bool isSortedListSinhVienEmpty(IndexList& sortedListSinhVien) {
 	return sortedListSinhVien.number == 0 ? true : false;
 }
 
-////CLONE LIST sv
-//void cloneListSinhVien(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienOutput)
-//{
-//	listSinhVienOutput.number = listSinhVien.number;
-//	//listSinhVienOutput.sinhvien = new SinhVien[listSinhVien.number];
-//	for (int i = 0; i < listSinhVien.number; i++) {
-//		//listSinhVienOutput.sinhvien[i].index = i;
-//		strncpy_s(listSinhVienOutput.sinhvien[i].MASV, listSinhVien.sinhvien[i].MASV, 15);
-//		strncpy_s(listSinhVienOutput.sinhvien[i].HO, listSinhVien.sinhvien[i].HO, 30);
-//		strncpy_s(listSinhVienOutput.sinhvien[i].TEN, listSinhVien.sinhvien[i].TEN, 10);
-//		listSinhVienOutput.sinhvien[i].PHAI = listSinhVien.sinhvien[i].PHAI;
-//		strncpy_s(listSinhVienOutput.sinhvien[i].SODT, listSinhVien.sinhvien[i].SODT, 15);
-//		strncpy_s(listSinhVienOutput.sinhvien[i].MALOP, listSinhVien.sinhvien[i].MALOP, 15);
-//	}
-//}
-
 void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sortedListSinhVien)
 {
 	sortedListSinhVien.number = listSinhVien.number;
@@ -79,3 +63,43 @@ void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sort
 		strcpy_s(sortedListSinhVien.nodes[i].TEN, listSinhVien.sinhvien[i].TEN);
 	}
 }
+
+void locSinhVienTheoLop(ListSinhVien& listSinhVienTheoLop, ListSinhVien& listSinhVien, char MALOP[15]) {
+
+	for (int i = 0; i < listSinhVien.number; i++) {
+		if (_stricmp(listSinhVien.sinhvien[i].MALOP, MALOP) == 0) {
+			insertSinhVienOrder(listSinhVienTheoLop, listSinhVien.sinhvien[i]);
+		}
+	}
+	
+}
+int deleteItem(IndexList& indexListSinhVien, int i)
+{
+	if (i < 0 || i >= indexListSinhVien.number || indexListSinhVien.number == 0)
+		return 0;
+	for (int j = i + 1; j < indexListSinhVien.number; j++)
+		indexListSinhVien.nodes[j - 1] = indexListSinhVien.nodes[j];
+	indexListSinhVien.number--;
+	return 1;
+}
+
+void clearIndexListSinhVien(IndexList& indexListSinhVien) {
+	for (int i = 0;i < indexListSinhVien.number;i++) {
+		deleteItem(indexListSinhVien, i);
+	}
+}
+//==================== KIEM TRA DU LIEU NHAP VAO ====================
+
+//TAO MA SINH VIEN
+//char[] generateMaSinhVien(ListSinhVien& listSinhVien) {
+//	char employeeId = "NVxxx";
+//	do
+//	{
+//		srand(time(NULL));
+//		for (int i = 2; i < employeeId.length(); i++) {
+//			employeeId[i] = rand() % (57 - 48 + 1) + 48;
+//		}
+//	} while (searchEmployee(employeeList, employeeId) != -1);
+//
+//	return employeeId;
+//}
