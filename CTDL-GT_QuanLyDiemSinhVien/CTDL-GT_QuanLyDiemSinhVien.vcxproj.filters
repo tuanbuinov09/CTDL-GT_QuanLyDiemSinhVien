@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CTDL-GT_QuanLyDiemSinhVien.cpp">
+    <ClCompile Include="QuanLyDiemSinhVien.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SinhVienHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LopHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

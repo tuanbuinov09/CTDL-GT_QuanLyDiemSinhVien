@@ -140,8 +140,22 @@ typedef NodeMH* TREE;
 * — Cau truc Danh Sach Lop —
 */
 
-struct NodeLop {
-	char MALOP[15];
-	NodeLop* next;
+struct Lop {
+	char MALOP[15]; //Ma lop
 };
-typedef NodeLop* DSLOPPTR;
+
+struct ListLop {
+	int number = 0;
+	Lop lop[MAXDSSV];
+};
+
+struct IndexLop {
+	int index; //vi tri cua lop trong ds lop
+	char MALOP[15]; //Ma lop
+};
+
+struct IndexListLop { //
+	int number = 0;
+	IndexLop nodes[MAXDSSV];
+};
+
