@@ -64,6 +64,8 @@ void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sort
 	}
 }
 
+
+
 void locSinhVienTheoLop(ListSinhVien& listSinhVienTheoLop, ListSinhVien& listSinhVien, char MALOP[15]) {
 
 	for (int i = 0; i < listSinhVien.number; i++) {
@@ -71,7 +73,6 @@ void locSinhVienTheoLop(ListSinhVien& listSinhVienTheoLop, ListSinhVien& listSin
 			insertSinhVienOrder(listSinhVienTheoLop, listSinhVien.sinhvien[i]);
 		}
 	}
-	
 }
 int deleteItem(IndexList& indexListSinhVien, int i)
 {
@@ -84,10 +85,23 @@ int deleteItem(IndexList& indexListSinhVien, int i)
 }
 
 void clearIndexListSinhVien(IndexList& indexListSinhVien) {
-	for (int i = 0;i < indexListSinhVien.number;i++) {
-		deleteItem(indexListSinhVien, i);
-	}
+	indexListSinhVien.number = 0;
 }
+
+int deleteItem(ListSinhVien& listSinhVien, int i)
+{
+	if (i < 0 || i >= listSinhVien.number || listSinhVien.number == 0)
+		return 0;
+	for (int j = i + 1; j < listSinhVien.number; j++)
+		listSinhVien.sinhvien[j - 1] = listSinhVien.sinhvien[j];
+		listSinhVien.number--;
+	return 1;
+}
+
+void clearListSinhVien(ListSinhVien& listSinhVien) {
+	listSinhVien.number = 0;
+}
+
 //==================== KIEM TRA DU LIEU NHAP VAO ====================
 
 //TAO MA SINH VIEN
@@ -103,3 +117,98 @@ void clearIndexListSinhVien(IndexList& indexListSinhVien) {
 //
 //	return employeeId;
 //}
+
+
+int xoaSinhVienTheoMaSV(ListSinhVien& listSinhVien, char MASV[15])
+{
+	if (listSinhVien.number == 0)
+		return 0;
+	for (int i=0; i < listSinhVien.number; i++)
+		if (_stricmp(listSinhVien.sinhvien[i].MASV, MASV) == 0) {
+			deleteItem(listSinhVien, i);
+			break;
+		}
+	return 1;
+}
+
+int timSinhVienTheoMASV(ListSinhVien& listSinhVien, string MASV) {
+
+	for (int i = 0; i < listSinhVien.number; i++) {
+		if (_stricmp(listSinhVien.sinhvien[i].MASV, MASV.c_str()) == 0) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+//KIEM TRA MA SINH VIEN
+string checkMaSinhVien(ListSinhVien& listSinhVien, string MASV_STR) {
+	if (MASV_STR.empty()) return "MA SINH VIEN khong duoc de trong";
+	if (MASV_STR.length() > 15) return "MA SINH VIEN khong duoc qua 15 ki tu ";
+
+	int s = timSinhVienTheoMASV(listSinhVien, MASV_STR);
+	if (s != 0) return "MA SINH VIEN da ton tai";
+	else return "";
+}
+
+//KIEM TRA MASV KHONG TON TAI
+string checkMaSVKhongTonTai(ListSinhVien& listSinhVien, string MASV_STR) {
+	if (MASV_STR.empty()) return "MA SINH VIEN khong duoc de trong";
+	int s = timSinhVienTheoMASV(listSinhVien, MASV_STR);
+	if (s != 0) return "";
+	else return "MA SINH VIEN khong ton tai";
+}
+
+//KIEM TRA HO
+string checkHO(string HO) {
+	if (HO.empty()) return "HO khong duoc de trong";
+	if (HO.length() > 30) return "HO khong qua 30 ki tu";
+	for (int i = 0; i < HO.length(); i++) {
+		if (isdigit(HO[i])) {
+			return "HO khong duoc chua ki tu so";
+		}
+	}
+	return "";
+}
+
+//KIEM TRA TEN
+string checkTEN(string TEN) {
+	if (TEN.empty()) return "TEN khong duoc de trong";
+	if (TEN.length() > 10) return "TEN khong qua 10 ki tu";
+	for (int i = 0; i < TEN.length(); i++) {
+		if (TEN[i] == 32 && isalpha(TEN[i + 1])) {
+			return "TEN chi duoc dien 1 tu";
+		}
+		else if (isdigit(TEN[i])) {
+			return "TEN khong duoc chua ki tu so";
+		}
+	}
+	return "";
+}
+
+//KIEM TRA GIOI TINH
+string checkGioiTinh(string gender) {
+	string male = "NAM";
+	string female = "NU";
+
+	if (gender.empty()) return "PHAI khong duoc de trong";
+	if (gender.compare(male) != 0 && gender.compare(female) != 0) {
+		return "PHAI chi la NAM hoac NU";
+	}
+	return "";
+}
+
+//KIEM TRA SDT
+string checkSODT(string SODT) {
+	if (SODT.empty()) return "SODT khong duoc de trong";
+	if (SODT.length() > 15) return "SODT khong qua 15 ki tu";
+	for (int i = 0; i < SODT.length(); i++) {
+		if (SODT[i] == 32 && isalpha(SODT[i + 1])) {
+			return "SODT khong chua khoang trang giua cac so";
+		}
+		else if (!isdigit(SODT[i])) {
+			return "SODT khong duoc chua ki tu chu";
+		}
+	}
+	return "";
+}
