@@ -76,7 +76,5 @@ int deleteItem(IndexListLop& indexListLop, int i)
 }
 
 void clearIndexListLop(IndexListLop& indexListLop) {
-	for (int i = 0;i < indexListLop.number;i++) {
-		deleteItem(indexListLop, i);
-	}
+	indexListLop.number = 0;
 }
