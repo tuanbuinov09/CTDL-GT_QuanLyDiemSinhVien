@@ -64,8 +64,6 @@ void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sort
 	}
 }
 
-
-
 void locSinhVienTheoLop(ListSinhVien& listSinhVienTheoLop, ListSinhVien& listSinhVien, char MALOP[15]) {
 
 	for (int i = 0; i < listSinhVien.number; i++) {

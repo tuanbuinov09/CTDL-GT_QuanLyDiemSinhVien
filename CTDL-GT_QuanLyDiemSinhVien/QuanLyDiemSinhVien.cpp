@@ -12,7 +12,10 @@ int main()
 	resizeConsole(WIDTH_MAIN_FRAME, HEIGHT_MAIN_FRAME);
 	DisableResizeWindow();
 	ShowScrollbar(false);
-
+	/*TREE treeMH;
+	khoiTaoCay(treeMH);
+	readFileMonHoc(treeMH);
+	duyetCayNLR(treeMH);*/
 	menu(true);
 	return 0;
 }

@@ -146,6 +146,7 @@
     <ClInclude Include="file-handling.h" />
     <ClInclude Include="helper-functions.h" />
     <ClInclude Include="LopHandler.h" />
+    <ClInclude Include="MonHocHandler.h" />
     <ClInclude Include="mylib.h" />
     <ClInclude Include="SinhVienHandler.h" />
     <ClInclude Include="struct.h" />
