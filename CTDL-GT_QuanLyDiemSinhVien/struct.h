@@ -134,6 +134,19 @@ struct NodeMH {
 };
 typedef NodeMH* TREE;
 
+struct IndexMonHoc {
+	int index; //vi tri cua mon hoc trong cay mon hoc
+	char MAMH[15]; //Ma lop
+	char TENMH[50];
+	unsigned int STCLT;
+	unsigned int STCTH;
+};
+
+struct IndexListMonHoc { //
+	int number = 0;
+	IndexMonHoc nodes[MAXDSSV];
+};
+
 
 
 /*
