@@ -90,7 +90,7 @@ void readFileMonHoc(TREE& treeMonHoc) {
 		//getline(fileIn, sinhVienNumberString, '|');
 		//int invoiceNumber = stoi(sinhVienNumberString);
 
-		themMonHocVaoCayOrderByMAMH(treeMonHoc, monHoc);
+		themMonHocVaoCay(treeMonHoc, monHoc);
 		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
 
 	}

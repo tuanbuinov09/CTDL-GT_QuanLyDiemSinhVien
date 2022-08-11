@@ -73,7 +73,7 @@ struct Index {
 
 struct IndexList { //DANH SACH TUYEN TINH CAP PHAT DONG
 	int number = 0;
-	Index nodes[MAXDSSV];
+	Index* nodes;
 };
 
 
@@ -138,16 +138,14 @@ struct IndexMonHoc {
 	int index; //vi tri cua mon hoc trong cay mon hoc
 	char MAMH[15]; //Ma lop
 	char TENMH[50];
-	unsigned int STCLT;
-	unsigned int STCTH;
+	int STCLT;
+	int STCTH;
 };
 
 struct IndexListMonHoc { //
 	int number = 0;
-	IndexMonHoc nodes[MAXDSSV];
+	IndexMonHoc* nodes;
 };
-
-
 
 /*
 * — Cau truc Danh Sach Lop —
@@ -159,7 +157,7 @@ struct Lop {
 
 struct ListLop {
 	int number = 0;
-	Lop lop[MAXDSSV];
+	Lop lop[200];
 };
 
 struct IndexLop {
@@ -169,6 +167,6 @@ struct IndexLop {
 
 struct IndexListLop { //
 	int number = 0;
-	IndexLop nodes[MAXDSSV];
+	IndexLop* nodes;
 };
 
