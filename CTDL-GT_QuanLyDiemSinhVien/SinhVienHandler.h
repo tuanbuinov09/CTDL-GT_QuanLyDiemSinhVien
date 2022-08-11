@@ -55,7 +55,7 @@ bool isSortedListSinhVienEmpty(IndexList& sortedListSinhVien) {
 void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sortedListSinhVien)
 {
 	sortedListSinhVien.number = listSinhVien.number;
-	//sortedListSinhVien.nodes =  Index[listSinhVien.number];
+	sortedListSinhVien.nodes =  new Index[listSinhVien.number];
 
 	for (int i = 0; i < listSinhVien.number; i++) {
 		sortedListSinhVien.nodes[i].index = i;
@@ -84,6 +84,7 @@ int deleteItem(IndexList& indexListSinhVien, int i)
 
 void clearIndexListSinhVien(IndexList& indexListSinhVien) {
 	indexListSinhVien.number = 0;
+	delete[] indexListSinhVien.nodes;
 }
 
 int deleteItem(ListSinhVien& listSinhVien, int i)
@@ -129,7 +130,7 @@ int xoaSinhVienTheoMaSV(ListSinhVien& listSinhVien, char MASV[15])
 	return 1;
 }
 
-int timSinhVienTheoMASV(ListSinhVien& listSinhVien, string MASV) {
+int maSinhVienDaTonTai(ListSinhVien& listSinhVien, string MASV) {
 
 	for (int i = 0; i < listSinhVien.number; i++) {
 		if (_stricmp(listSinhVien.sinhvien[i].MASV, MASV.c_str()) == 0) {
@@ -144,7 +145,7 @@ string checkMaSinhVien(ListSinhVien& listSinhVien, string MASV_STR) {
 	if (MASV_STR.empty()) return "MA SINH VIEN khong duoc de trong";
 	if (MASV_STR.length() > 15) return "MA SINH VIEN khong duoc qua 15 ki tu ";
 
-	int s = timSinhVienTheoMASV(listSinhVien, MASV_STR);
+	int s = maSinhVienDaTonTai(listSinhVien, MASV_STR);
 	if (s != 0) return "MA SINH VIEN da ton tai";
 	else return "";
 }
@@ -152,7 +153,7 @@ string checkMaSinhVien(ListSinhVien& listSinhVien, string MASV_STR) {
 //KIEM TRA MASV KHONG TON TAI
 string checkMaSVKhongTonTai(ListSinhVien& listSinhVien, string MASV_STR) {
 	if (MASV_STR.empty()) return "MA SINH VIEN khong duoc de trong";
-	int s = timSinhVienTheoMASV(listSinhVien, MASV_STR);
+	int s = maSinhVienDaTonTai(listSinhVien, MASV_STR);
 	if (s != 0) return "";
 	else return "MA SINH VIEN khong ton tai";
 }
@@ -209,4 +210,23 @@ string checkSODT(string SODT) {
 		}
 	}
 	return "";
+}
+
+
+void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSinhVien, string tenSinhVien) {
+	indexListSinhVien.number = 0;
+
+	for (int i = 0; i < listSinhVien.number; i++) {
+		char* output = NULL;
+		output = strstr(listSinhVien.sinhvien[i].TEN, tenSinhVien.c_str());
+		if (output) {
+			Index indexSinhVien;
+			indexSinhVien.index = i;
+			strcpy_s(indexSinhVien.TEN, listSinhVien.sinhvien[i].TEN);
+			strcpy_s(indexSinhVien.HO, listSinhVien.sinhvien[i].HO);
+			indexListSinhVien.nodes[indexListSinhVien.number] = indexSinhVien;
+			indexListSinhVien.number++;
+		}
+	}
+
 }

@@ -34,7 +34,7 @@ void insertLopOrder(ListLop& listLop, Lop& lop/*, string type*/) {
 void listLopToIndexListLop(ListLop& listLop, IndexListLop& indexListLop)
 {
 	indexListLop.number = listLop.number;
-	//sortedListSinhVien.nodes =  Index[listSinhVien.number];
+	indexListLop.nodes =  new IndexLop[listLop.number];
 
 	for (int i = 0; i < listLop.number; i++) {
 		indexListLop.nodes[i].index = i;
@@ -77,4 +77,5 @@ int deleteItem(IndexListLop& indexListLop, int i)
 
 void clearIndexListLop(IndexListLop& indexListLop) {
 	indexListLop.number = 0;
+	delete[] indexListLop.nodes;
 }
