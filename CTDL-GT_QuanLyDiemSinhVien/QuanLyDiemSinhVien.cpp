@@ -16,6 +16,11 @@ int main()
 	khoiTaoCay(treeMH);
 	readFileMonHoc(treeMH);
 	duyetCayNLR(treeMH);*/
+
+	/*DSLOPTINCHI listLopTinChi;
+	readFileLopTinChi(listLopTinChi);
+	duyetLopTinChi(listLopTinChi);*/
+
 	menu(true);
 	return 0;
 }

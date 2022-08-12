@@ -29,7 +29,7 @@
     <ClInclude Include="helper-functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="file-handling.h">
+    <ClInclude Include="file-handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SinhVienHandler.h">
@@ -41,5 +41,14 @@
     <ClInclude Include="MonHocHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LopTinChiHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DangKyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\DSDK.txt" />
   </ItemGroup>
 </Project>
