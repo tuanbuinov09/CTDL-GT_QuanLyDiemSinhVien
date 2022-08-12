@@ -7,8 +7,8 @@
 #define HEIGHT_MAIN_FRAME 40
 
 //=================== POP UP ===================
-#define WIDTH_POP_UP 61;
-#define HEIGHT_POP_UP 20;
+#define WIDTH_POP_UP 77;
+#define HEIGHT_POP_UP 28;
 #define BACKGROUND_COLOR_POP_UP 7;
 
 #define COLOR_BLACK 0
@@ -115,6 +115,15 @@ struct DSLOPTINCHI {
 	LopTinChi* loptinchi[MAXLOPTINCHI];
 };
 
+struct IndexLopTinChi {
+	int index; //vi tri cua mon hoc trong cay mon hoc
+	char NIENKHOA[15];
+};
+
+struct IndexListLopTinChi { //
+	int number = 0;
+	IndexLopTinChi* nodes;
+};
 
 /*
 * — Cau truc Danh Sach Mon Hoc —
