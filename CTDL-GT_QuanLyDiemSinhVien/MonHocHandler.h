@@ -185,7 +185,7 @@ int suaMonHoc(TREE& treeMonHoc, MonHoc monhoc) {
 //KIEM TRA MA MON HOC
 string checkMaMonHoc(TREE& treeMonHoc, string MAMH_STR) {
 	if (MAMH_STR.empty()) return "MA MON HOC khong duoc de trong";
-	if (MAMH_STR.length() > 15) return "MA MON HOC khong duoc qua 15 ki tu ";
+	if (MAMH_STR.length() > 10) return "MA MON HOC khong duoc qua 10 ki tu ";
 
 	NodeMH* s = NULL;
 	s = timMonHocTheoMaMonHoc(treeMonHoc, MAMH_STR);
@@ -229,4 +229,32 @@ string checkSOTCLT_TH(string SOTC, string LTTH) {
 	}
 
 	return "";
+}
+
+
+// tìm môn học theo tên
+void searchTreeMonHocTheoTenMonHoc(TREE treeMonHoc, IndexListMonHoc& indexListMonHoc, string TENMH_STR, bool init) {
+	if (init) {
+		indexListMonHoc.nodes = new IndexMonHoc[200];
+		indexListMonHoc.number = 0;
+	}
+	if (treeMonHoc == NULL) {
+		return;
+	}
+	else {
+		char* output = NULL;
+		output = strstr(treeMonHoc->MH.TENMH, TENMH_STR.c_str());
+		if (output) {
+			IndexMonHoc indexMonHoc;
+			indexMonHoc.index = indexListMonHoc.number;
+			strcpy_s(indexMonHoc.TENMH, treeMonHoc->MH.TENMH);
+			strcpy_s(indexMonHoc.MAMH, treeMonHoc->MH.MAMH);
+			indexMonHoc.STCLT = treeMonHoc->MH.STCLT;
+			indexMonHoc.STCTH = treeMonHoc->MH.STCTH;
+			indexListMonHoc.nodes[indexListMonHoc.number] = indexMonHoc;
+			indexListMonHoc.number++;
+		}
+			searchTreeMonHocTheoTenMonHoc(treeMonHoc->left, indexListMonHoc, TENMH_STR, false); // duyệt qua trái
+			searchTreeMonHocTheoTenMonHoc(treeMonHoc->right, indexListMonHoc, TENMH_STR, false); // duyệt qua phải
+	}
 }

@@ -129,15 +129,17 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 	fileIn.close();
 }
 
-void readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
+int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 
 	ifstream fileIn;
 	fileIn.open("data/DSLOPTC.txt", ios_base::in);
 
-	if (fileIn.fail()) return;
+	if (fileIn.fail()) return 0;
 	if (fileIn.peek() == fstream::traits_type::eof()) {
-		return;
+		return 0;
 	}
+
+	int maxMALOPTC = 0;
 	while (fileIn.eof() != true)
 	{
 		LopTinChi lopTinChi;
@@ -145,7 +147,7 @@ void readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 		getline(fileIn, temp, '|');
 		if (temp.compare("") == 0) break;//stricmp compare char array
 		lopTinChi.MALOPTC = stoi(temp);// stoi chuyeenr thanh int
-
+		maxMALOPTC = lopTinChi.MALOPTC;
 		getline(fileIn, temp, '|');
 		strcpy_s(lopTinChi.MAMH, temp.c_str());
 
@@ -171,8 +173,9 @@ void readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 		}
 
 		readFileDanhsachDangKyTheoLopTinChi(lopTinChi);
-		themLopTinChiOrderByMaLTC(listLopTinChi, lopTinChi);
+		insertLopTinChiOrderByMaLTC(listLopTinChi, lopTinChi);
 		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
 	}
+	return maxMALOPTC; // trả về maxMALOPTC
 	fileIn.close();
 }
