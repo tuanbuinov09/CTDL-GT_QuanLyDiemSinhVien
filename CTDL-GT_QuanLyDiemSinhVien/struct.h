@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define MAXLOPTINCHI 10000
 #define MAXDSSV 5000
 
@@ -81,24 +80,25 @@ struct IndexList { //DANH SACH TUYEN TINH CAP PHAT DONG
 * — Cau truc Danh Sach Dang Ky —
 */
 
-struct DANGKY {
+struct DangKy {
 	char MASV[15];
 	float DIEM;
 
 };
+
 struct NodeDK {
-	DANGKY SV;
+	DangKy dangky;
 	NodeDK* next;
 };
 
-typedef NodeDK* LISTDK;
+typedef NodeDK* LISTDANGKY;
 
 /*
 * — Cau truc Danh Sach Lop Tin Chi —
 */
 
 struct LopTinChi {
-	unsigned int MALOPTC; // Ma lop Tin Chi
+	int MALOPTC; // Ma lop Tin Chi
 	char MAMH[10]; //Ma Mon Hoc
 	char NIENKHOA[15]; //Nien Khoa
 	int HOCKY; //Hoc Ky (1 hoac 2 hoac 3)
@@ -106,13 +106,13 @@ struct LopTinChi {
 	int MINSV; //So Sinh Vien Toi Thieu
 	int MAXSV; //So Sinh Vien Toi Da
 	bool HUYLOP; //(true= Giu lop; false= xoa lop)
-	LISTDK DSDK;
+	LISTDANGKY DSDK;
 	LopTinChi() { static int id = 1; MALOPTC = id++; }
 };
 
 struct DSLOPTINCHI {
-	unsigned int N;
-	LopTinChi* LOP[MAXLOPTINCHI];
+	int number = 0;
+	LopTinChi* loptinchi[MAXLOPTINCHI];
 };
 
 

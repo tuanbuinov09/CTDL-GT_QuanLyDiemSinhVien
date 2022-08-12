@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "file-handling.h"
+#include "file-handler.h"
 #include <iomanip>
 #include <string>
 
@@ -15,7 +15,7 @@ TREE treeMonHoc;
 ListSinhVien listSinhVien;
 ListSinhVien listSinhVienTheoLop;
 ListLop listLop;
-
+DSLOPTINCHI listLopTinChi;
 
 void upperCaseWhileTyping(int x, int y, string& text, char& key) {
 	ShowCur(1);
@@ -157,6 +157,7 @@ void menu(boolean isInit) {
 		khoiTaoCay(treeMonHoc);
 		readFileMonHoc(treeMonHoc);
 
+		readFileLopTinChi(listLopTinChi);
 		//duyetCayNLR(treeMH)
 		/*initProductList(productList);
 		readProductFile(productList);*/

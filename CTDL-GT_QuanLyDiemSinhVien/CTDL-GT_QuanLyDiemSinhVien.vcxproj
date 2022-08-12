@@ -143,13 +143,18 @@
     <ClCompile Include="QuanLyDiemSinhVien.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="file-handling.h" />
+    <ClInclude Include="DangKyHandler.h" />
+    <ClInclude Include="file-handler.h" />
     <ClInclude Include="helper-functions.h" />
     <ClInclude Include="LopHandler.h" />
+    <ClInclude Include="LopTinChiHandler.h" />
     <ClInclude Include="MonHocHandler.h" />
     <ClInclude Include="mylib.h" />
     <ClInclude Include="SinhVienHandler.h" />
     <ClInclude Include="struct.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\DSDK.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
