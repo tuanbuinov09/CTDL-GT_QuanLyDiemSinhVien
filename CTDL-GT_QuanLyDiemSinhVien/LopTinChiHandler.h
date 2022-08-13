@@ -55,7 +55,7 @@ void sapXepListLopTinChiNienKhoaDESC(IndexListLopTinChi& sortedListLopTinChi)
 	}
 }
 
-bool isSortedListLopTinChiEmpty(IndexListLopTinChi& indexListLopTinChi) {
+bool isSortedListLopTinChiEmpty(IndexListLopTinChi indexListLopTinChi) {
 	return indexListLopTinChi.number == 0 ? true : false;
 }
 
@@ -71,7 +71,7 @@ void clearIndexListLopTinChi(IndexListLopTinChi& listLopTinChi) {
 int timIndexLopTinChiTheoMALTC(DSLOPTINCHI listLopTinChi, int MALOPTC) {
 	int index = -1;
 	for (int i = 0; i < listLopTinChi.number; i++) {
-		if (listLopTinChi.loptinchi[i]->MALOPTC==MALOPTC) {
+		if (listLopTinChi.loptinchi[i]->MALOPTC == MALOPTC) {
 			index = i;
 			return index;
 		}
@@ -182,7 +182,7 @@ string kiemTraXoaLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC) {
 		return "Khong tim thay LTC";
 	}
 	else {
-		if(timSoLuongSinhVienDaDangKyLTC(ltcCanXoa) > 0)
+		if (timSoLuongSinhVienDaDangKyLTC(ltcCanXoa) > 0)
 			return "Lop da co dang ky, khong the xoa";
 		return "";
 	}
@@ -192,7 +192,7 @@ string kiemTraSuaMAXSV(DSLOPTINCHI& listLopTinChi, int MALTC, string MAXSV_STR) 
 	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
 	LopTinChi* ltcCanSua = listLopTinChi.loptinchi[i];
 	if (timSoLuongSinhVienDaDangKyLTC(ltcCanSua) > stoi(MAXSV_STR))
-			return "So SV da dang ky > MAXSV";
+		return "So SV da dang ky > MAXSV";
 	return "";
 }
 
@@ -202,10 +202,28 @@ int xoaLopTinChiTheoMaLTC(DSLOPTINCHI& listLopTinChi, int MALTC)
 		return 0;
 	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
 	delete listLopTinChi.loptinchi[i];
-	
+
 	for (int k = i; k < listLopTinChi.number - 1; k++) {
 		listLopTinChi.loptinchi[k] = listLopTinChi.loptinchi[k + 1];
 	}
 	listLopTinChi.number = listLopTinChi.number--;
 	return 1;
+}
+
+//TIM KIEM DANH SACH LTC THEO NIEN KHOA
+void seachListLopTinChiTheoNienKhoa(DSLOPTINCHI listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, string NIENKHOA_STR) {
+	sortedListLopTinChi.number = 0;
+	sortedListLopTinChi.nodes = new IndexLopTinChi[listLopTinChi.number];
+
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		char* output = NULL;
+		output = strstr(listLopTinChi.loptinchi[i]->NIENKHOA, NIENKHOA_STR.c_str());
+		if (output) {
+			IndexLopTinChi indexLopTinChi;
+			indexLopTinChi.index = i;
+			strcpy_s(indexLopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			sortedListLopTinChi.nodes[sortedListLopTinChi.number] = indexLopTinChi;
+			sortedListLopTinChi.number++;
+		}
+	}
 }

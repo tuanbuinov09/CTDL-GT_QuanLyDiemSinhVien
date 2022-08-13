@@ -216,7 +216,7 @@ string checkSODT(string SODT) {
 
 void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSinhVien, string tenSinhVien) {
 	indexListSinhVien.number = 0;
-
+	indexListSinhVien.nodes = new Index[listSinhVien.number];
 	for (int i = 0; i < listSinhVien.number; i++) {
 		char* output = NULL;
 		output = strstr(listSinhVien.sinhvien[i].TEN, tenSinhVien.c_str());
@@ -230,4 +230,14 @@ void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSin
 		}
 	}
 
+}
+
+int timIndexSinhVienTheoMASV(ListSinhVien listSinhVien, char MASV_CANTIM[15]) {
+	int index = -1;
+	for (int i = 0; i < listSinhVien.number; i++) {
+		if (strcmp(listSinhVien.sinhvien[i].MASV, MASV_CANTIM) == 0) {
+			index = i;
+			return index;
+		}
+	}
 }

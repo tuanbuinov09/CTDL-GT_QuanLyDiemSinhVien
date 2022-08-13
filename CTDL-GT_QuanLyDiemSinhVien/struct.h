@@ -4,7 +4,7 @@
 #define MAXDSSV 5000
 
 #define WIDTH_MAIN_FRAME 160
-#define HEIGHT_MAIN_FRAME 40
+#define HEIGHT_MAIN_FRAME 41
 
 //=================== POP UP ===================
 #define WIDTH_POP_UP 75;
@@ -92,6 +92,18 @@ struct NodeDK {
 };
 
 typedef NodeDK* LISTDANGKY;
+
+struct IndexDangKy {
+	int index; 
+	char MASV[15]; //Ma sinh Vien
+	char HO[30];
+	char TEN[10];
+};
+
+struct IndexListDangKy { //
+	int number = 0;
+	IndexDangKy* nodes;
+};
 
 /*
 * — Cau truc Danh Sach Lop Tin Chi —
