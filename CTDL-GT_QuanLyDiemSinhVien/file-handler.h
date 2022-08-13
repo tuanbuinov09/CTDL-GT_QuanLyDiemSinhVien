@@ -108,7 +108,6 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 	if (fileIn.peek() == fstream::traits_type::eof()) {
 		return;
 	}
-	lopTinChi.DSDK = new NodeDK();
 	while (fileIn.eof() != true)
 	{
 		DangKy dangky;
@@ -123,7 +122,9 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 		getline(fileIn, temp);
 		dangky.DIEM = stof(temp);// stof chuyeenr thanh float
 		if (maltc == lopTinChi.MALOPTC)
+		{
 			themVaoListDangKy(lopTinChi.DSDK, dangky);
+		}
 		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
 	}
 	fileIn.close();
@@ -171,6 +172,7 @@ int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 		if (stoi(temp) == 1) {
 			lopTinChi.HUYLOP = true;
 		}
+		lopTinChi.DSDK = initListDangKy();
 
 		readFileDanhsachDangKyTheoLopTinChi(lopTinChi);
 		insertLopTinChiOrderByMaLTC(listLopTinChi, lopTinChi);
