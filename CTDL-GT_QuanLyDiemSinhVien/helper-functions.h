@@ -13,11 +13,13 @@ int popUpThemMonHoc(TREE& treeMonHoc);
 int popUpSuaMonHoc(TREE& treeMonHoc, char MAMH_CANSUA[15], IndexListMonHoc& sortedListMonHoc);
 void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch);
 int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi);
+int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi);
 TREE treeMonHoc;
 ListSinhVien listSinhVien;
 ListSinhVien listSinhVienTheoLop;
 ListLop listLop;
 DSLOPTINCHI listLopTinChi;
+
 int maxMALOPTC;
 void upperCaseWhileTyping(int x, int y, string& text, char& key) {
 	ShowCur(1);
@@ -217,6 +219,8 @@ void menu(boolean isInit) {
 
 				IndexListLopTinChi sortedListLopTinChi;
 				listLopTinChiToIndexListLopTinChi(listLopTinChi, sortedListLopTinChi);
+				sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChi);
+
 				clearConsole();
 				listLopTinChiTable(listLopTinChi, sortedListLopTinChi, false);
 			}
@@ -1018,7 +1022,7 @@ int popUpThemSinhVien(ListSinhVien& listSinhVien, char MALOP [15]) {
 	int x = getCenterX(WIDTH_MAIN_FRAME, width);
 	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
 	int xInput = x + 18;
-	int widthInput = 40;
+	int widthInput = WIDTH_INPUT;
 
 	//char MASV[15]; /*= generateEmployeeId(employeeList);*/
 	//char HO[30];
@@ -1051,7 +1055,7 @@ int popUpThemSinhVien(ListSinhVien& listSinhVien, char MALOP [15]) {
 			setBackgroundColor(COLOR_WHITE);
 			setTextColor(COLOR_BLACK);
 			cout << title[i];
-			box(xInput, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
 		}
 	}
 
@@ -1181,7 +1185,7 @@ int popUpSuaSinhVien(ListSinhVien& listSinhVien, int indexSinhVien, IndexList& s
 	int x = getCenterX(WIDTH_MAIN_FRAME, width);
 	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
 	int xInput = x + 18;
-	int widthInput = 40;
+	int widthInput = WIDTH_INPUT;
 	const int number = 4; // số input field
 
 	string oldMASV = listSinhVien.sinhvien[indexSinhVien].MASV;
@@ -1211,7 +1215,7 @@ int popUpSuaSinhVien(ListSinhVien& listSinhVien, int indexSinhVien, IndexList& s
 			setTextColor(COLOR_BLACK);
 			cout << title[i];
 
-			box(xInput, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, data[i], TEXT_LEFT);
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, data[i], TEXT_LEFT);
 		}
 	}
 
@@ -2086,7 +2090,7 @@ int popUpThemMonHoc(TREE& treeMonHoc) {
 	int x = getCenterX(WIDTH_MAIN_FRAME, width);
 	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
 	int xInput = x + 18;
-	int widthInput = 40;
+	int widthInput = WIDTH_INPUT;
 
 	//char MASV[15]; /*= generateEmployeeId(employeeList);*/
 	//char HO[30];
@@ -2119,7 +2123,7 @@ int popUpThemMonHoc(TREE& treeMonHoc) {
 			setBackgroundColor(COLOR_WHITE);
 			setTextColor(COLOR_BLACK);
 			cout << title[i];
-			box(xInput, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
 		}
 	}
 
@@ -2242,7 +2246,7 @@ int popUpSuaMonHoc(TREE& treeMonHoc, char MAMH_CANSUA[15], IndexListMonHoc& sort
 	int x = getCenterX(WIDTH_MAIN_FRAME, width);
 	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
 	int xInput = x + 18;
-	int widthInput = 40;
+	int widthInput = WIDTH_INPUT;
 	const int number = 3; // số input field
 
 	//string MAMH_STR = listSinhVien.sinhvien[indexSinhVien].MASV;
@@ -2272,7 +2276,7 @@ int popUpSuaMonHoc(TREE& treeMonHoc, char MAMH_CANSUA[15], IndexListMonHoc& sort
 			setTextColor(COLOR_BLACK);
 			cout << title[i];
 
-			box(xInput, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, data[i], TEXT_LEFT);
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, data[i], TEXT_LEFT);
 		}
 	}
 
@@ -2632,28 +2636,36 @@ void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedLi
 				int index = sortedListLopTinChi.nodes[i + currentIndex].index;
 				if (isAccepted)
 				{
-					//------- sau này bắt trường hợp lớp đã có sinh viên đăng ký
 					/*if (isEmployeeHasInvoiceList(*employeeList.employee[index])) {
 						string message = "SINH VIEN NAY DA LAP HOA DON, KHONG XOA DUOC.";
 						int t = notificationPopUp(message);
 						if (t == YES) {};
 					}*/
 					//else {//
-
 					//xoaSinhVienTheoMaSV(listSinhVien, listSinhVien.sinhvien[index].MASV);
-
 					//writeEmployeeFile(employeeList);
-
 					//delete[] sortedListSinhVien.nodes;
-					clearIndexListLopTinChi(sortedListLopTinChi);
-					listLopTinChiToIndexListLopTinChi(listLopTinChi, sortedListLopTinChi);
-					sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChi);
-
-					clearConsole();
-					listLopTinChiTable(listLopTinChi, sortedListLopTinChi, false);
-					
 
 					//}
+					// 
+					//------- sau này bắt trường hợp lớp đã có sinh viên đăng ký
+
+					string message = kiemTraXoaLopTinChi(listLopTinChi, listLopTinChi.loptinchi[index]->MALOPTC);
+					if (!message.empty()) {
+						int t = notificationPopUp(message);
+						if (t == YES) {};
+					}
+					else {
+						xoaLopTinChiTheoMaLTC(listLopTinChi, listLopTinChi.loptinchi[index]->MALOPTC);
+
+						clearIndexListLopTinChi(sortedListLopTinChi);
+						listLopTinChiToIndexListLopTinChi(listLopTinChi, sortedListLopTinChi);
+						sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChi);
+
+						//clearConsole();
+						//listLopTinChiTable(listLopTinChi, sortedListLopTinChi, false);
+					}
+					
 				}
 				//writeEmployeeFile(employeeList);
 				clearConsole();
@@ -2700,16 +2712,16 @@ void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedLi
 		{
 			if (!isSortedListLopTinChiEmpty(sortedListLopTinChi))
 			{
-				//int index = sortedListLopTinChi.nodes[i + currentIndex].index;
-				//int k = popUpSuaSinhVien(listSinhVien, index, sortedListLopTinChi);
-				//if (k == YES) { // DA HIEU CHINH SINH VIEN
-				//	clearConsole();
-				//	listSinhVienTable(listSinhVien, sortedListSinhVien, false, MALOP);
-				//}
-				//else {//NHAN ESC
-				//	clearConsole();
-				//	listSinhVienTable(listSinhVien, sortedListSinhVien, isSearch, MALOP);
-				//}
+				int index = sortedListLopTinChi.nodes[i + currentIndex].index;
+				int k = popUpSuaLopTinChi(listLopTinChi, index, sortedListLopTinChi);
+				if (k == YES) { // DA HIEU CHINH SINH VIEN
+					clearConsole();
+					listLopTinChiTable(listLopTinChi, sortedListLopTinChi, false);
+				}
+				else {//NHAN ESC
+					clearConsole();
+					listLopTinChiTable(listLopTinChi, sortedListLopTinChi, isSearch);
+				}
 			}
 			break;
 		}
@@ -2764,7 +2776,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 	int x = getCenterX(WIDTH_MAIN_FRAME, width);
 	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
 	int xInput = x + 18;
-	int widthInput = 40;
+	int widthInput = WIDTH_INPUT;
 
 	//char MASV[15]; /*= generateEmployeeId(employeeList);*/
 	//char HO[30];
@@ -2789,7 +2801,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 	cout << "ESC : QUAY LAI";
 
 	const int number = 6;
-	// đã thêm theo lớp đang chọn
+
 	string title[number] = { "MAMH", "NIENKHOA", "HOCKY", "NHOM", "MINSV", "MAXSV"}; //Mã lớp tín chỉ tự sinh, khi thêm thì mặc định HUYLOP
 	for (int i = 0; i <= number; i++) {
 		if (i == number) {
@@ -2800,7 +2812,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 			setBackgroundColor(COLOR_WHITE);
 			setTextColor(COLOR_BLACK);
 			cout << title[i];
-			box(xInput, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
 		}
 	}
 
@@ -2861,7 +2873,8 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 				string e5 = checkHK_MIN_MAXSV(trim(MINSV_STR), "MINSV");
 				string e6 = checkHK_MIN_MAXSV(trim(MAXSV_STR), "MAXSV");
 				string e7 = checkToHopKeyLopTinChi(listLopTinChi, trim(MAMH_STR), trim(NIENKHOA_STR), trim(HOCKY_STR), trim(NHOM_STR));
-				
+				string e8 = "";
+
 				int iy = y + height - (number + 1);
 				setTextColor(COLOR_BRIGHT_WHITE);
 
@@ -2873,12 +2886,9 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 					if (!e4.empty()) { gotoXY(xPointer + 1, iy); cout << e4; iy += 1; }
 					// nếu MINSV MAXSV đúng là số
 					if (e5.empty() && e6.empty()) {
-						string e8 = "";
-
 						//kiểm tra xem min có <= max k
 						if (stoi(trim(MINSV_STR)) >= stoi(trim(MAXSV_STR))) {
 							e8 = "MINSV phai <= MAXSV";
-
 							gotoXY(xPointer + 1, iy); cout << e8; iy += 1;
 						}
 					}
@@ -2889,7 +2899,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 					
 				}
 
-				if (e1.empty() && e2.empty() && e3.empty() && e4.empty() && e5.empty() && e6.empty() && e7.empty()) {
+				if (e1.empty() && e2.empty() && e3.empty() && e4.empty() && e5.empty() && e6.empty() && e7.empty()&&e8.empty()) {
 
 					//THEM LOP TIN CHI MOI
 					LopTinChi lopTinChi;
@@ -2933,6 +2943,186 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi) {
 			else if (i == 4) upperCaseWhileTyping(xPointer, yPointer, MINSV_STR, key);
 			else if (i == 5) upperCaseWhileTyping(xPointer, yPointer, MAXSV_STR, key);
 
+			break;
+		}
+		}
+	}
+}
+
+
+//=================== SUA LOP TIN CHI =================== 
+// MAU DE LAM POP UP
+int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi) {
+	ShowCur(1);
+	int height = HEIGHT_POP_UP;
+	int width = WIDTH_POP_UP;
+	int x = getCenterX(WIDTH_MAIN_FRAME, width);
+	int y = getCenterY(HEIGHT_MAIN_FRAME, height);
+	int xInput = x + 18;
+	int widthInput = WIDTH_INPUT;
+	const int number = 3; // số input field
+
+	int maLTC_CANSUA = listLopTinChi.loptinchi[indexLopTinChiCanSua]->MALOPTC;
+
+	string MINSV_STR = std::to_string(listLopTinChi.loptinchi[indexLopTinChiCanSua]->MINSV);
+	string MAXSV_STR = std::to_string(listLopTinChi.loptinchi[indexLopTinChiCanSua]->MAXSV);
+	string HUYLOP_STR = listLopTinChi.loptinchi[indexLopTinChiCanSua]->HUYLOP == 0? "HUY" : "MO";
+	string oldHUYLOP_STR = HUYLOP_STR;
+
+	string title[number] = { /*"MAMH",*/ "MINSV", "MAXSV", "HUYLOP" }; // không cho sửa MAMH
+	string data[number] = { MINSV_STR, MAXSV_STR, HUYLOP_STR };
+
+	string editTitle = convertToString(listLopTinChi.loptinchi[indexLopTinChiCanSua]->MAMH) + "-" +
+						convertToString(listLopTinChi.loptinchi[indexLopTinChiCanSua]->NIENKHOA) + "-HK:" +
+						std::to_string(listLopTinChi.loptinchi[indexLopTinChiCanSua]->HOCKY) + "-NHOM:" +
+						std::to_string(listLopTinChi.loptinchi[indexLopTinChiCanSua]->NHOM);
+	//ve bang pop up
+	box(x, y, width, height, COLOR_WHITE, COLOR_BLACK, "", TEXT_CENTER);
+	box(x, y, width, 1, COLOR_RED, COLOR_BRIGHT_WHITE, "SUA LTC " + editTitle, TEXT_CENTER);
+	box(x, y + height, width, 1, COLOR_RED, COLOR_BRIGHT_WHITE, " ESC : QUAY LAI", TEXT_LEFT);
+
+	for (int i = 0; i <= number; i++) {
+		if (i == number) {
+			box(xInput, y + 2 * (i + 1), 10, 3, COLOR_RED, COLOR_BRIGHT_WHITE, "OK", TEXT_CENTER);
+		}
+		else {
+			gotoXY(x + 2, y + 2 * (i + 1));
+			setBackgroundColor(COLOR_WHITE);
+			setTextColor(COLOR_BLACK);
+			cout << title[i];
+
+			box(xInput - 2, y + 2 * (i + 1), widthInput, 1, COLOR_BLACK, COLOR_LIGHT_YELLOW, data[i], TEXT_LEFT);
+		}
+	}
+
+	int xPointer = xInput;
+	int yPointer = y + 2;
+	int xPointerOld = xPointer;
+	int yPointerOld = yPointer;
+	int backgroundColorChoose = 7;
+	int i = 0;
+	bool isClicked = true;
+	char c = char();
+
+	while (true)
+	{
+		if (isClicked)
+		{
+			ShowCur(1);
+			if (i == number) {
+				ShowCur(0);
+				box(xPointer, y + 2 * (number + 1), 10, 3, COLOR_LIGHT_YELLOW, COLOR_BLACK, "OK", TEXT_CENTER);
+			};
+			//if (i == 0) upperCaseWhileTyping(xPointer, yPointer, employeeId, c);
+			isClicked = false;
+		}
+		if (i == number) c = _getch();
+
+		switch (c)
+		{
+		case -32:
+			isClicked = true;
+			c = _getch();
+			if (c == UP && yPointer != y + 2)
+			{
+				yPointer -= 2;
+				if (i == number) box(xPointer, y + 2 * (number + 1), 10, 3, COLOR_RED, COLOR_BRIGHT_WHITE, "OK", TEXT_CENTER);
+				if (i > 0) i--;
+			}
+			else if (c == DOWN && yPointer != y + 2 * (number + 1))
+			{
+				yPointer += 2;
+				if (i < 5) i++;
+			}
+			c = char();
+			break;
+
+		case ESC:
+		{
+			setBackgroundColor(COLOR_BLACK);
+			return NO;
+			break;
+		}
+
+		case ENTER:
+		{
+			if (i == number) {
+				box(xPointer, y + height - (number + 1), widthInput, 5, COLOR_RED, COLOR_LIGHT_YELLOW, "", TEXT_CENTER);
+
+				string e1 = checkHK_MIN_MAXSV(trim(MINSV_STR), "MINSV");
+				string e2 = checkHK_MIN_MAXSV(trim(MAXSV_STR), "MAXSV");
+				string e3 = checkHUYLOPTC(listLopTinChi, maLTC_CANSUA, oldHUYLOP_STR, trim(HUYLOP_STR));
+				string e4 = "";
+				string e5 = "";
+				int iy = y + height - (number + 1);
+				setTextColor(COLOR_BRIGHT_WHITE);
+
+				if (!e1.empty()) { gotoXY(xPointer + 1, iy); cout << e1; iy += 1; }
+				// nếu MINSV MAXSV đúng là số
+				if (e2.empty() && e3.empty()) {
+					
+
+					//kiểm tra xem min có <= max k
+					if (stoi(trim(MINSV_STR)) > stoi(trim(MAXSV_STR))) {
+						e4 = "MINSV phai <= MAXSV";
+						gotoXY(xPointer + 1, iy); cout << e4; iy += 1;
+					}
+					else {
+						e5 = kiemTraSuaMAXSV(listLopTinChi, maLTC_CANSUA, trim(MAXSV_STR));
+						if (!e5.empty()) { gotoXY(xPointer + 1, iy); cout << e5; iy += 1; }
+					}
+				}
+				else {
+					if (!e2.empty()) { gotoXY(xPointer + 1, iy); cout << e2; iy += 1; }
+					if (!e3.empty()) { gotoXY(xPointer + 1, iy); cout << e3; iy += 1; }
+				}
+
+				if (e1.empty() && e2.empty() && e3.empty()&&e4.empty()&&e5.empty()) {
+					//if (employeeId == oldEmployeeId) { //KHONG THAY DOI MA NHAN VIEN
+					LopTinChi lopTinChi;
+					lopTinChi.MALOPTC = maLTC_CANSUA;
+					/*strcpy_s(lopTinChi.MAMH, trim(MAMH_STR).c_str());
+					strcpy_s(lopTinChi.NIENKHOA, trim(NIENKHOA_STR).c_str());
+					lopTinChi.NHOM = stoi(trim(NHOM_STR));
+					lopTinChi.HOCKY = stoi(trim(HOCKY_STR));*/
+					lopTinChi.MINSV = stoi(trim(MINSV_STR));
+					lopTinChi.MAXSV = stoi(trim(MAXSV_STR));
+					lopTinChi.HUYLOP = 1; // default lúc tạo là lớp đang mở
+
+					if (HUYLOP_STR.compare("HUY") == 0) {
+						lopTinChi.HUYLOP = 0;
+					}
+
+					suaLopTinChi(listLopTinChi, lopTinChi);
+					clearIndexListLopTinChi(sortedListLopTinChi);
+					listLopTinChiToIndexListLopTinChi(listLopTinChi, sortedListLopTinChi);
+					sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChi);
+					//}
+					//else { //THAY DOI MA NHAN VIEN
+					//	employeeList.employee[employeeIndex]->employeeId = trim(employeeId);
+					//	employeeList.employee[employeeIndex]->firstname = trim(firstname);
+					//	employeeList.employee[employeeIndex]->lastname = trim(lastname);
+					//	employeeList.employee[employeeIndex]->gender = trim(gender);
+
+					//	sortEmployeeListByEmployeeId(employeeList);
+
+					//	delete[] sortedEmployeeList.nodes;
+					//	employeeListToEmployeeIndexList(employeeList, sortedEmployeeList);
+					//	sortEmployeeListByName(sortedEmployeeList);
+					//}
+
+					//writeEmployeeFile(employeeList);
+					return YES;
+				}
+			}
+			break;
+		}
+
+		default:
+		{
+			if (i == 0) upperCaseWhileTyping(xPointer, yPointer, MINSV_STR, c);
+			else if (i == 1) upperCaseWhileTyping(xPointer, yPointer, MAXSV_STR, c);
+			else if (i == 2) upperCaseWhileTyping(xPointer, yPointer, HUYLOP_STR, c);
 			break;
 		}
 		}

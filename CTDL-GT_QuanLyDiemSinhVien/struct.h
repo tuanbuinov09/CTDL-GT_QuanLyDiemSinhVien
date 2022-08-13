@@ -7,10 +7,10 @@
 #define HEIGHT_MAIN_FRAME 40
 
 //=================== POP UP ===================
-#define WIDTH_POP_UP 77;
-#define HEIGHT_POP_UP 28;
+#define WIDTH_POP_UP 75;
+#define HEIGHT_POP_UP 25;
 #define BACKGROUND_COLOR_POP_UP 7;
-
+#define WIDTH_INPUT 50;
 #define COLOR_BLACK 0
 #define COLOR_DEFAULT 51
 #define COLOR_BACKGROUND_DEFAULT 51
@@ -42,7 +42,7 @@
 #define DELETE_KEY 83
 #define INSERT_KEY 82
 #define YES 1
-#define NO -1
+#define NO 0
 #define CTRL_F 6
 
 /*

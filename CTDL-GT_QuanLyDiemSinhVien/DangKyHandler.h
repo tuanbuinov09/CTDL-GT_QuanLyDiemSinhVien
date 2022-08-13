@@ -9,16 +9,19 @@ bool isListDangKyEmpty(LISTDANGKY& first) {
 	if (first == NULL) return true;
 	return false;
 }
-
+LISTDANGKY initListDangKy() {
+	LISTDANGKY DSDK = NULL;
+	return DSDK;
+}
 //Them tat ca cac truong hop trong danh sach dang ky
-void themVaoListDangKy(LISTDANGKY& first, DangKy& dangky)
+void themVaoListDangKy(LISTDANGKY& first, DangKy dangky)
 {
 	NodeDK* p = new NodeDK;
 	NodeDK* t = new NodeDK;
 	NodeDK* s = new NodeDK;  // t la nut truoc, s la nut sau
 	p->dangky = dangky;
-
-	for (s = first; s != NULL && (strcmp(s->dangky.MASV, dangky.MASV) < 0); t = s, s = s->next);
+	
+	for (s = first; s != NULL && strcmp(s->dangky.MASV, dangky.MASV) > 0; t = s, s = s->next);
 	if (s == first)  // them nut vao dau danh sach lien ket
 	{
 		p->next = first;

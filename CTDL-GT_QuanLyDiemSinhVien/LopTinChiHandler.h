@@ -68,6 +68,15 @@ void clearIndexListLopTinChi(IndexListLopTinChi& listLopTinChi) {
 	delete[] listLopTinChi.nodes;
 }
 
+int timIndexLopTinChiTheoMALTC(DSLOPTINCHI listLopTinChi, int MALOPTC) {
+	int index = -1;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (listLopTinChi.loptinchi[i]->MALOPTC==MALOPTC) {
+			index = i;
+			return index;
+		}
+	}
+}
 
 //KIEM TRA HOCKY, MINSV, MAXSV
 string checkHK_MIN_MAXSV(string number, string message) {
@@ -105,7 +114,7 @@ string checkToHopKeyLopTinChi(DSLOPTINCHI listLopTinChi, string MAMH_STR, string
 			&& (listLopTinChi.loptinchi[i]->HOCKY == stoi(HOCKY_STR))
 			&& (listLopTinChi.loptinchi[i]->NHOM == stoi(NHOM_STR))
 			) {
-			return "MAMH+NIENKHOA+HOCKY+NHOM da ton tai";
+			return "MAMH-NIENKHOA-HOCKY-NHOM da ton tai";
 		}
 	}
 	return "";
@@ -122,4 +131,81 @@ string checkNIENKHOA(string NIENKHOA_STR) {
 		}
 	}*/
 	return "";
+}
+
+int timSoLuongSinhVienDaDangKyLTC(LopTinChi* lopTinChi) {
+	int dem = 0;
+	for (NodeDK* k = lopTinChi->DSDK; k != NULL; k = k->next) {
+		dem++;
+	}
+	return dem;
+}
+
+string checkHUYLOPTC(DSLOPTINCHI listLopTinChi, int maLopTinChi, string oldHUYLOP_STR, string HUYLOP_STR) {
+	//KIEM TRA HUY LOP
+	string moLop = "MO";
+	string huyLop = "HUY";
+	if (oldHUYLOP_STR.compare(HUYLOP_STR) == 0) {
+		return "";
+	}
+	if (HUYLOP_STR.empty()) return "HUYLOP khong duoc de trong";
+	if (HUYLOP_STR.compare(moLop) != 0 && HUYLOP_STR.compare(huyLop) != 0) {
+		return "HUYLOP la MO hoac HUY";
+	}
+	else {
+		int i = timIndexLopTinChiTheoMALTC(listLopTinChi, maLopTinChi);
+		LopTinChi* ltc = listLopTinChi.loptinchi[i];
+		if (timSoLuongSinhVienDaDangKyLTC(ltc) != 0) {
+			return "Khong the thay doi tt HUYLOP (LTC da co dang ky)";
+		}
+	}
+	return "";
+}
+
+int suaLopTinChi(DSLOPTINCHI& listLopTinChi, LopTinChi lopTinChi) {
+	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, lopTinChi.MALOPTC);
+	LopTinChi* ltcCanSua = listLopTinChi.loptinchi[i];
+	if (ltcCanSua == NULL) {
+		return 0;
+	}
+	else {
+		ltcCanSua->MINSV = lopTinChi.MINSV;
+		ltcCanSua->MAXSV = lopTinChi.MAXSV;
+		ltcCanSua->HUYLOP = lopTinChi.HUYLOP;
+		return 1;
+	}
+}
+string kiemTraXoaLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC) {
+	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
+	LopTinChi* ltcCanXoa = listLopTinChi.loptinchi[i];
+	if (ltcCanXoa == NULL) {
+		return "Khong tim thay LTC";
+	}
+	else {
+		if(timSoLuongSinhVienDaDangKyLTC(ltcCanXoa) > 0)
+			return "Lop da co dang ky, khong the xoa";
+		return "";
+	}
+}
+
+string kiemTraSuaMAXSV(DSLOPTINCHI& listLopTinChi, int MALTC, string MAXSV_STR) {
+	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
+	LopTinChi* ltcCanSua = listLopTinChi.loptinchi[i];
+	if (timSoLuongSinhVienDaDangKyLTC(ltcCanSua) > stoi(MAXSV_STR))
+			return "So SV da dang ky > MAXSV";
+	return "";
+}
+
+int xoaLopTinChiTheoMaLTC(DSLOPTINCHI& listLopTinChi, int MALTC)
+{
+	if (listLopTinChi.number == 0)
+		return 0;
+	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
+	delete listLopTinChi.loptinchi[i];
+	
+	for (int k = i; k < listLopTinChi.number - 1; k++) {
+		listLopTinChi.loptinchi[k] = listLopTinChi.loptinchi[k + 1];
+	}
+	listLopTinChi.number = listLopTinChi.number--;
+	return 1;
 }
