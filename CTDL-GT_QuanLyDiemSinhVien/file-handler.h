@@ -113,7 +113,11 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 		getline(fileIn, temp, '|');
 		if (temp.compare("") == 0) break;//stricmp compare char array
 		int maltc = stoi(temp);
-
+		//
+		//int flag = 0;
+		//if (maltc == 7) {
+		//	flag = 1;
+		//}
 		getline(fileIn, temp, '|');
 		strcpy_s(dangky.MASV, temp.c_str());
 

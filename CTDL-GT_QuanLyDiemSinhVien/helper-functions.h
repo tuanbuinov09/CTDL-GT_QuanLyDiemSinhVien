@@ -4,7 +4,7 @@
 #include <string>
 
 using namespace std;
-void listSinhVienTable(ListSinhVien& listSinhVien, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
+void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
 void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, bool isSearch);
 void treeMonHocTable(TREE& treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool isSearch);
 int popUpThemSinhVien(ListSinhVien& listSinhVien, char MALOP[15]);
@@ -20,12 +20,16 @@ void listLopTinChiSinhVienDaDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI&
 
 TREE treeMonHoc;
 ListSinhVien listSinhVien;
-//ListSinhVien listSinhVienTheoLop;
 ListLop listLop;
 DSLOPTINCHI listLopTinChi;
-//DSLOPTINCHI listLopTinChiSinhVienDaDangKy;
-
 int maxMALOPTC;
+
+string convertToString(char* a)
+{
+	string s = a;
+	return s;
+}
+
 void upperCaseWhileTyping(int x, int y, string& text, char& key) {
 	ShowCur(1);
 	setTextColor(COLOR_LIGHT_YELLOW);
@@ -263,7 +267,10 @@ void menu(boolean isInit) {
 
 				char MASV[15];
 				strcpy_s(MASV, popUpNhapMaSinhVien());
-
+				if (convertToString(MASV) == "") {
+					clearConsole();
+					menu(false);
+				}
 				int index = timIndexSinhVienTheoMASV(listSinhVien, MASV);
 				SinhVien sinhvien = listSinhVien.sinhvien[index];
 
@@ -671,11 +678,6 @@ void coutBox(int x, int y, int width, int align, string text) {
 
 }
 
-string convertToString(char* a)
-{
-	string s = a;
-	return s;
-}
 
 //=================== BANG SINH VIEN ===================
 void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
@@ -692,9 +694,9 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 
 	int currentIndex = 0;
 	int row = 12;
-	const int column = 7;
-	string title[column] = { "STT", "MASV", "HO", "TEN", "PHAI", "SDT", "MALOP" };
-	int cellWidth[column] = { 10, 20, 25, 15, 10, 15, 20 };
+	const int column = 6;
+	string title[column] = { "STT", "MASV", "HO", "TEN", "PHAI", "SDT"/*, "MALOP"*/ };
+	int cellWidth[column] = { 10, 20, 25, 15, 15, 20/*, 20*/ };
 
 	int iy = y + 2;
 
@@ -782,8 +784,8 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 						coutBox(ix, iy, cellWidth[5], TEXT_LEFT, listSinhVienTheoLop.sinhvien[index].SODT);
 						ix += cellWidth[5];
 
-						coutBox(ix, iy, cellWidth[6], TEXT_LEFT, listSinhVienTheoLop.sinhvien[index].MALOP);
-						ix += cellWidth[6];
+					/*	coutBox(ix, iy, cellWidth[6], TEXT_LEFT, listSinhVienTheoLop.sinhvien[index].MALOP);
+						ix += cellWidth[6];*/
 					}
 					iy = iy + 2;
 				}
@@ -916,13 +918,13 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 				int index = sortedListSinhVien.nodes[i + currentIndex].index;
 				if (isAccepted)
 				{
-					//------- sau này bắt trường hợp sinh viên đã có điểm
-					/*if (isEmployeeHasInvoiceList(*employeeList.employee[index])) {
-						string message = "SINH VIEN NAY DA LAP HOA DON, KHONG XOA DUOC.";
+					//------- sau này bắt trường hợp sinh viên đã đăng ký lớp tín chỉ
+					if (sinhVienDaDangKyLopTinChi(listLopTinChi, listSinhVienTheoLop.sinhvien[index].MASV)==1) {
+						string message = "SINH VIEN NAY DA DANG KY LTC, KHONG THE XOA";
 						int t = notificationPopUp(message);
 						if (t == YES) {};
-					}*/
-					//else {//
+					}
+					else {//
 					xoaSinhVienTheoMaSV(listSinhVien, listSinhVienTheoLop.sinhvien[index].MASV);
 					//writeEmployeeFile(employeeList);
 
@@ -933,7 +935,7 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 					listSinhVienToListIndexSinhVien(listSinhVienTheoLop, sortedListSinhVien);
 					sapXepListSinhVienTheoTen(sortedListSinhVien);
 				
-					//}
+					}
 				}
 				//writeEmployeeFile(employeeList);
 				clearConsole();
@@ -971,12 +973,12 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 				clearConsole();
 				menu(false);*/
 				//delete[] sortedListSinhVien.nodes;
+
 				clearIndexListSinhVien(sortedListSinhVien);
 				clearListSinhVien(listSinhVienTheoLop);
 
 				IndexListLop indexListLop;
 				listLopToIndexListLop(listLop, indexListLop);
-
 				clearConsole();
 				listLop_ChonLopTable(listLop, indexListLop, false);
 
@@ -1681,12 +1683,11 @@ void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, bool isS
 
 				ListSinhVien listSinhVienTheoLop;
 				locSinhVienTheoLop(listSinhVienTheoLop, listSinhVien, MA_LOP_SELECTED);
+				clearIndexListLop(indexListLop);
 
 				IndexList sortedListSinhVien;
 				listSinhVienToListIndexSinhVien(listSinhVienTheoLop, sortedListSinhVien);
 				sapXepListSinhVienTheoTen(sortedListSinhVien);
-
-				clearIndexListLop(indexListLop);
 
 				clearConsole();
 				listSinhVienTable(listSinhVien, listSinhVienTheoLop, sortedListSinhVien, false, MA_LOP_SELECTED);
@@ -1981,12 +1982,12 @@ void treeMonHocTable(TREE& treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool i
 				{
 
 					//------- sau này bắt trường hợp môn này đã dùng để tạo lớp tín chỉ
-					/*if (isEmployeeHasInvoiceList(*employeeList.employee[index])) {
-						string message = "SINH VIEN NAY DA LAP HOA DON, KHONG XOA DUOC.";
+					if (monHocDaDuocDungDeDangKyLTC(listLopTinChi, sortedListMonHoc.nodes[i + currentIndex].MAMH)==1) {
+						string message = "MON HOC DA DUNG DE TAO LTC, KHONG THE XOA";
 						int t = notificationPopUp(message);
 						if (t == YES) {};
-					}*/
-					//else {//
+					}
+					else {//
 					char MAMH_CANXOA[15];
 					strcpy_s(MAMH_CANXOA, sortedListMonHoc.nodes[i + currentIndex].MAMH);
 					xoaMonHocTrongCayByMAMH(treeMonHoc, MAMH_CANXOA);
@@ -2000,7 +2001,7 @@ void treeMonHocTable(TREE& treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool i
 					/*clearConsole();
 					treeMonHocTable(treeMonHoc, sortedListMonHoc, false);*/
 
-					//}
+					}
 				}
 				//writeEmployeeFile(employeeList);
 			//	clearConsole();
@@ -3929,42 +3930,24 @@ void listLopTinChiSinhVienDaDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI&
 				string message = "BAN MUON HUY DANG KY LOP TIN CHI NAY?";
 				bool isAccepted = warningPopUp(message);
 				int index = sortedListLopTinChiSinhVienDaDangKy.nodes[i + currentIndex].index;
+				int MALTC_SV_CANHUYDANGKY = listLopTinChiSinhVienDaDangKy.loptinchi[index]->MALOPTC;
 				if (isAccepted)
 				{
-					/*if (isEmployeeHasInvoiceList(*employeeList.employee[index])) {
-						string message = "SINH VIEN NAY DA LAP HOA DON, KHONG XOA DUOC.";
-						int t = notificationPopUp(message);
-						if (t == YES) {};
-					}*/
-					//else {//
-					//xoaSinhVienTheoMaSV(listSinhVien, listSinhVien.sinhvien[index].MASV);
-					//writeEmployeeFile(employeeList);
-					//delete[] sortedListSinhVien.nodes;
+					int indexLTCTrongListAll = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC_SV_CANHUYDANGKY);
+					LopTinChi* lopTinChiSVCanHuyDK = new LopTinChi;
+					lopTinChiSVCanHuyDK = listLopTinChi.loptinchi[indexLTCTrongListAll];
+					xoaTrongDanhSachDangKyTheoMaSinhVien(lopTinChiSVCanHuyDK->DSDK, sinhvien.MASV);
 
-					//}
-					// 
-					//------- sau này bắt trường hợp lớp đã có sinh viên đăng ký
+					clearListLopTinChi(listLopTinChiSinhVienDaDangKy);
+					clearIndexListLopTinChi(sortedListLopTinChiSinhVienDaDangKy);
+					timLopTinChiSinhVienDaDangKy(listLopTinChi, listLopTinChiSinhVienDaDangKy, sinhvien.MASV);
+					listLopTinChiToIndexListLopTinChi(listLopTinChiSinhVienDaDangKy, sortedListLopTinChiSinhVienDaDangKy);
+					sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChiSinhVienDaDangKy);
 
-					//string message = kiemTraXoaLopTinChi(listLopTinChi, listLopTinChi.loptinchi[index]->MALOPTC);
-					//if (!message.empty()) {
-					//	int t = notificationPopUp(message);
-					//	if (t == YES) {};
-					//}
-					//else {
-					//	xoaLopTinChiTheoMaLTC(listLopTinChi, listLopTinChi.loptinchi[index]->MALOPTC);
-
-					//	clearIndexListLopTinChi(sortedListLopTinChi);
-					//	listLopTinChiToIndexListLopTinChi(listLopTinChi, sortedListLopTinChi);
-					//	sapXepListLopTinChiNienKhoaDESC(sortedListLopTinChi);
-
-					//	//clearConsole();
-					//	//listLopTinChiTable(listLopTinChi, sortedListLopTinChi, false);
-					//}
-
+					clearConsole();
+					listLopTinChiSinhVienDaDangKyTable(listLopTinChi, listLopTinChiSinhVienDaDangKy, sortedListLopTinChiSinhVienDaDangKy, sinhvien, false);
 				}
 				//writeEmployeeFile(employeeList);
-				/*clearConsole();
-				listLopTinChiTable(listLopTinChi, sortedListLopTinChi, isSearch);*/
 			}
 
 			break;
@@ -3996,6 +3979,7 @@ void listLopTinChiSinhVienDaDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI&
 				menu(false);*/
 				//delete[] sortedListSinhVien.nodes;
 				clearIndexListLopTinChi(sortedListLopTinChiSinhVienDaDangKy);
+				clearListLopTinChi(listLopTinChiSinhVienDaDangKy);//15-8
 				clearConsole();
 				menu(false);
 			}
@@ -4084,5 +4068,4 @@ void listLopTinChiSinhVienDaDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI&
 		}
 
 	}
-
 }

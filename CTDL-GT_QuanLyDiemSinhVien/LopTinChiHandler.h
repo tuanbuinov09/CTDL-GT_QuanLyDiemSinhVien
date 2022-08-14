@@ -228,6 +228,45 @@ void seachListLopTinChiTheoNienKhoa(DSLOPTINCHI listLopTinChi, IndexListLopTinCh
 	}
 }
 
+int deleteItem(DSLOPTINCHI& listLopTinChi, int i)
+{
+	if (i < 0 || i >= listLopTinChi.number || listLopTinChi.number == 0)
+		return 0;
+	for (int j = i + 1; j < listLopTinChi.number; j++)
+		listLopTinChi.loptinchi[j - 1] = listLopTinChi.loptinchi[j];
+
+	listLopTinChi.number--;
+	return 1;
+}
+
+void clearListLopTinChi(DSLOPTINCHI& listLopTinChi) {
+	while (listLopTinChi.number != 0) {
+		deleteItem(listLopTinChi, 0);
+	}
+	listLopTinChi.number = 0;
+//	delete[] listLopTinChi.loptinchi;
+
+}
+
+int sinhVienDaDangKyLopTinChi(DSLOPTINCHI listLopTinChi, char MASV[15]) {
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int monHocDaDuocDungDeDangKyLTC(DSLOPTINCHI listLopTinChi, char MAMH[10]) {
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH) == 0) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
 void timLopTinChiSinhVienDaDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienDaDangKy, char MASV[15]) {
 	listLopTinChiSinhVienDaDangKy.number = 0;
 	for (int i = 0; i < listLopTinChi.number; i++) {
@@ -244,5 +283,61 @@ void timLopTinChiSinhVienDaDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLo
 
 			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
 		}
+	}
+}
+
+void timLopTinChiSinhVienCoTheDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienCoTheDangKy, char MASV[15]) {
+	listLopTinChiSinhVienCoTheDangKy.number = 0;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			LopTinChi lopTinChi;
+			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+
+			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
+		}
+	}
+}
+
+//KIEM TRA DANH SACH DANG KY RONG
+bool isDanhSachDangKyEmpty(LISTDANGKY first) {
+	if (first == NULL) return true;
+	return false;
+}
+
+//Xoa tat ca cac truong hop trong danh sach dang ky cua lop tin chi
+void xoaTrongDanhSachDangKyTheoMaSinhVien(LISTDANGKY& first, char MASV[15]) {
+	if (isDanhSachDangKyEmpty(first)) return;
+
+	if (strcmp(first->dangky.MASV, MASV) == 0) {
+		NodeDK* p = first;    // nut can xoa la nut dau
+		first = p->next;
+		delete p;
+		return;
+	}
+
+	NodeDK* q = nullptr;
+	NodeDK* p = nullptr; //node dung truoc node q;
+	for (q = first; q != NULL; q = q->next) {
+		if (strcmp(q->dangky.MASV, MASV) == 0) {
+			break;
+		}
+		p = q;
+	}
+
+	if (q != nullptr) {
+		if (q->next != NULL) { //DELETE AFTER
+			p->next = q->next;
+		}
+		else { //DELETE LAST
+			p->next = NULL;
+		}
+		delete q;
 	}
 }
