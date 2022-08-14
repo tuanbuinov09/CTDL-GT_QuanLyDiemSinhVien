@@ -99,6 +99,9 @@ int deleteItem(ListSinhVien& listSinhVien, int i)
 }
 
 void clearListSinhVien(ListSinhVien& listSinhVien) {
+	while (listSinhVien.number != 0) {
+		deleteItem(listSinhVien, 0);
+	}
 	listSinhVien.number = 0;
 }
 
