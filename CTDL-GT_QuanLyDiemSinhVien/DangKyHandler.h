@@ -88,3 +88,13 @@ void sapXepListDangKyTheoHOTENSV(IndexListDangKy& sortedListDangKy)
 bool isSortedListDangKyEmpty(IndexListDangKy& sortedListDangKy) {
 	return sortedListDangKy.number == 0 ? true : false;
 }
+
+int kiemTraSinhVienCoDangKy(LISTDANGKY listDangKy, char MASV[15])
+{
+	for (NodeDK* k = listDangKy; k != NULL; k = k->next) {
+		if (strcmp(k->dangky.MASV, MASV) == 0){
+			return 1;
+		}
+	}
+	return 0;
+}

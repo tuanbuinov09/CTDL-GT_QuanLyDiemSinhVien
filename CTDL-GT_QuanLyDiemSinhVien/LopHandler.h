@@ -34,12 +34,10 @@ void insertLopOrder(ListLop& listLop, Lop& lop/*, string type*/) {
 void listLopToIndexListLop(ListLop& listLop, IndexListLop& indexListLop)
 {
 	indexListLop.number = listLop.number;
-	indexListLop.nodes =  new IndexLop[listLop.number];
-
+	indexListLop.nodes = new IndexLop[listLop.number];
 	for (int i = 0; i < listLop.number; i++) {
 		indexListLop.nodes[i].index = i;
 		strcpy_s(indexListLop.nodes[i].MALOP, listLop.lop[i].MALOP);
-
 	}
 }
 

@@ -229,7 +229,6 @@ void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSin
 			indexListSinhVien.number++;
 		}
 	}
-
 }
 
 int timIndexSinhVienTheoMASV(ListSinhVien listSinhVien, char MASV_CANTIM[15]) {

@@ -227,3 +227,22 @@ void seachListLopTinChiTheoNienKhoa(DSLOPTINCHI listLopTinChi, IndexListLopTinCh
 		}
 	}
 }
+
+void timLopTinChiSinhVienDaDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienDaDangKy, char MASV[15]) {
+	listLopTinChiSinhVienDaDangKy.number = 0;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			LopTinChi lopTinChi; 
+			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+
+			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
+		}
+	}
+}

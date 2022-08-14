@@ -8,8 +8,6 @@
 #include "DangKyHandler.h"
 using namespace std;
 
-
-
 //=================== DOC FILE SINH VIEN ===================
 void readFileSinhVien(ListSinhVien& listSinhVien, ListLop& listLop) {
 
