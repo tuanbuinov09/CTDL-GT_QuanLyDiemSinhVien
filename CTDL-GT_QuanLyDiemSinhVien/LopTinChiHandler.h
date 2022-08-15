@@ -286,24 +286,24 @@ void timLopTinChiSinhVienDaDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLo
 	}
 }
 
-void timLopTinChiSinhVienCoTheDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienCoTheDangKy, char MASV[15]) {
-	listLopTinChiSinhVienCoTheDangKy.number = 0;
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
-			LopTinChi lopTinChi;
-			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
-			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
-			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
-			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
-			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
-			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
-			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
-			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
-
-			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
-		}
-	}
-}
+//void timLopTinChiSinhVienCoTheDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienCoTheDangKy, char MASV[15]) {
+//	listLopTinChiSinhVienCoTheDangKy.number = 0;
+//	for (int i = 0; i < listLopTinChi.number; i++) {
+//		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 0) {
+//			LopTinChi lopTinChi;
+//			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+//			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+//			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+//			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+//			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+//			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+//			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+//			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+//
+//			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienCoTheDangKy, lopTinChi);
+//		}
+//	}
+//}
 
 //KIEM TRA DANH SACH DANG KY RONG
 bool isDanhSachDangKyEmpty(LISTDANGKY first) {
@@ -311,6 +311,7 @@ bool isDanhSachDangKyEmpty(LISTDANGKY first) {
 	return false;
 }
 
+// sinh viên hủy đăng ký
 //Xoa tat ca cac truong hop trong danh sach dang ky cua lop tin chi
 void xoaTrongDanhSachDangKyTheoMaSinhVien(LISTDANGKY& first, char MASV[15]) {
 	if (isDanhSachDangKyEmpty(first)) return;
@@ -340,4 +341,45 @@ void xoaTrongDanhSachDangKyTheoMaSinhVien(LISTDANGKY& first, char MASV[15]) {
 		}
 		delete q;
 	}
+}
+void timLopTinChiConMoTheoNienKhoa(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, int current_NIENKHOA) {
+	listLopTinChiTheoNienKhoa.number = 0;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, std::to_string(current_NIENKHOA).c_str()) == 0
+			&& listLopTinChi.loptinchi[i]->HUYLOP == 0) {
+			LopTinChi lopTinChi;
+			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+
+			insertLopTinChiOrderByMaLTC(listLopTinChiTheoNienKhoa, lopTinChi);
+		}
+	}
+}
+
+void sinhVienDangKyLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC_CANDANGKY, char MASV_DANGKY[15]) {
+	int index = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC_CANDANGKY);
+	DangKy dangky;
+	strcpy_s(dangky.MASV, MASV_DANGKY);
+	themVaoListDangKy(listLopTinChi.loptinchi[index]->DSDK, dangky);
+}
+
+int sinhVienDaDangKyMonNayNienKhoaHKNay(DSLOPTINCHI listLopTinChi, char MASV[15], LopTinChi* loptinchi) {
+	for (int i = 0; i < listLopTinChi.number;i++) {
+		// tìm tới 1 môn có cùng niên khóa, môn học, học kỳ(k cần tính tới nhóm vì k thể học 2 nhóm được)
+		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, loptinchi->NIENKHOA) == 0
+			&& strcmp(listLopTinChi.loptinchi[i]->MAMH, loptinchi->MAMH) == 0
+			&& listLopTinChi.loptinchi[i]->HOCKY == loptinchi->HOCKY) {
+			//kiểm tra xem danh sách đăng ký của lớp đó có sinh viên này k
+			if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+				return 1;
+			}
+		}
+	}
+	return 0;
 }
