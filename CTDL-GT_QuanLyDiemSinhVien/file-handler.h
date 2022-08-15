@@ -122,7 +122,10 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 		strcpy_s(dangky.MASV, temp.c_str());
 
 		getline(fileIn, temp);
-		dangky.DIEM = stof(temp);// stof chuyeenr thanh float
+		if (!(temp.compare("") == 0)) { // nếu rỗng thì sinh viên chưa có điểm
+			dangky.DIEM = stof(temp);// stof chuyeenr thanh float
+
+		}
 		if (maltc == lopTinChi.MALOPTC)
 		{
 			themVaoListDangKy(lopTinChi.DSDK, dangky);
