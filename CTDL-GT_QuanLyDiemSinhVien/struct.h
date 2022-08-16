@@ -101,6 +101,7 @@ struct IndexDangKy {
 	char MASV[15]; //Ma sinh Vien
 	char HO[30];
 	char TEN[10];
+	float DIEM;
 };
 
 struct IndexListDangKy { //
