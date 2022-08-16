@@ -52,6 +52,9 @@ void listDangKyToIndexListDangKy(LISTDANGKY listDangKy, IndexListDangKy& indexLi
 		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].HO, listSinhVien.sinhvien[indexSV].HO);
 		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].TEN, listSinhVien.sinhvien[indexSV].TEN);
 
+		indexListDangKy.nodes[indexListDangKy.number].DIEM = k->dangky.DIEM;
+	
+
 		indexListDangKy.number++;
 	}
 }
