@@ -19,9 +19,6 @@ void insertLopTinChiOrderByMaLTC(DSLOPTINCHI& listLopTinChi, LopTinChi& lopTinCh
 	//TAO LOP TIN CHI MOI VA THEM VAO VI TRI DO
 	listLopTinChi.loptinchi[i] = new LopTinChi();
 	*listLopTinChi.loptinchi[i] = lopTinChi;
-	//// khởi tạo danh sách đăng ký, tránh trường hợp truy cập đăng ký lớp vừa thêm để xem sinh viên đã đăng ký chưa bị lỗi
-	//listLopTinChi.loptinchi[i]->DSDK = initListDangKy();
-	// chưa hiểu sao thêm ở đây lúc lấy danh sách sinh viên đăng ký không được, nên chuyển qua popUpThemLTC
 	listLopTinChi.number++;
 }
 

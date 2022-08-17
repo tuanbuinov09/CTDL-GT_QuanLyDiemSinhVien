@@ -42,10 +42,12 @@ void readFileSinhVien(ListSinhVien& listSinhVien, ListLop& listLop) {
 		insertLopOrder(listLop, lop);
 
 		getline(fileIn, temp, '|');
-		sinhVien.PHAI = true;
+		sinhVien.PHAI = stoi(temp);
+		
+		/*sinhVien.PHAI = false;
 		if (stoi(temp) == 0) {
 			sinhVien.PHAI = false;
-		}
+		}*/
 
 		getline(fileIn, temp);//sdt ở cuối k cần '|'
 		strcpy_s(sinhVien.SODT, temp.c_str());
@@ -184,4 +186,87 @@ int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 	}
 	return maxMALOPTC; // trả về maxMALOPTC
 	fileIn.close();
+}
+
+//=================== GHI FILE SINH VIEN ===================
+void writeFileSinhVien(ListSinhVien& listSinhVien) {
+	fstream fileDSSVOut;
+	fileDSSVOut.open("data/DSSV.txt", ios_base::out);
+
+	if (fileDSSVOut.fail()) return;
+	for (int i = 0; i < listSinhVien.number; i++)
+	{
+		SinhVien sinhvien = listSinhVien.sinhvien[i];
+
+		fileDSSVOut << sinhvien.MASV << "|";
+		fileDSSVOut << sinhvien.HO << "|";
+		fileDSSVOut << sinhvien.TEN << "|";
+		fileDSSVOut << sinhvien.MALOP << "|";
+		fileDSSVOut << sinhvien.PHAI << "|";
+		fileDSSVOut << sinhvien.SODT;
+
+		if (i == listSinhVien.number - 1) break;
+		fileDSSVOut << endl;
+	}
+	fileDSSVOut.close();
+}
+
+
+//=================== GHI FILE LOP TIN CHI ===================
+void writeFileLopTinChi(DSLOPTINCHI& listLopTinChi) { // ghi cả dsdk
+	fstream fileDSLTCOut;
+	fileDSLTCOut.open("data/DSLOPTC.txt", ios_base::out);
+	fstream fileDSDKOut;
+	fileDSDKOut.open("data/DSDK.txt", ios_base::out);
+
+	if (fileDSLTCOut.fail()) return;
+	for (int i = 0; i < listLopTinChi.number; i++)
+	{
+		LopTinChi lopTinChi = *listLopTinChi.loptinchi[i];
+
+		fileDSLTCOut << lopTinChi.MALOPTC << "|";
+		fileDSLTCOut << lopTinChi.MAMH << "|";
+		fileDSLTCOut << lopTinChi.NIENKHOA << "|";
+		fileDSLTCOut << lopTinChi.HOCKY << "|";
+		fileDSLTCOut << lopTinChi.NHOM << "|";
+		fileDSLTCOut << lopTinChi.MINSV << "|";
+		fileDSLTCOut << lopTinChi.MAXSV << "|";
+		fileDSLTCOut << lopTinChi.HUYLOP;
+
+		//=================== GHI FILE DSDK ===================
+		for (NodeDK* p = lopTinChi.DSDK; p != NULL; p = p->next)
+		{
+			fileDSDKOut << lopTinChi.MALOPTC << "|";
+			fileDSDKOut << p->dangky.MASV << "|";
+			fileDSDKOut << p->dangky.DIEM;
+			fileDSDKOut << endl;
+		}
+		if (i == listLopTinChi.number - 1) break;
+		fileDSLTCOut << endl;
+	}
+	fileDSLTCOut.close();
+}
+
+//=================== GHI FILE MON HOC ===================
+void writeFileMonHocNLR(TREE& treeMonhoc, fstream& monHocFileOut) {
+	if (treeMonhoc != NULL) {
+		monHocFileOut << treeMonhoc->MH.MAMH << "|";
+		monHocFileOut << treeMonhoc->MH.STCLT << "|";
+		monHocFileOut << treeMonhoc->MH.STCTH << "|";
+		monHocFileOut << treeMonhoc->MH.TENMH;
+		monHocFileOut << endl;
+
+		writeFileMonHocNLR(treeMonhoc->left, monHocFileOut);
+		writeFileMonHocNLR(treeMonhoc->right, monHocFileOut);
+	}
+
+}
+
+void writeFileMonHoc(TREE& treeMonhoc) {
+	fstream fileMonHocOut;
+	fileMonHocOut.open("data/DSMH.txt", ios_base::out);
+	if (fileMonHocOut.fail()) return;
+
+	writeFileMonHocNLR(treeMonhoc, fileMonHocOut);
+	fileMonHocOut.close();
 }
