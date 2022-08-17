@@ -40,7 +40,13 @@ void duyetListDangKy(LISTDANGKY first) {
 	}
 	cout << "\n";
 }
-
+int laySoLuongSVDaDK(LISTDANGKY first) {
+	int dem = 0;
+	for (NodeDK* k = first; k != NULL; k = k->next) {
+		dem++;
+	}
+	return dem;
+}
 void listDangKyToIndexListDangKy(LISTDANGKY listDangKy, IndexListDangKy& indexListDangKy, int MAXSV, ListSinhVien listSinhVien)
 {
 	indexListDangKy.number = 0;

@@ -18,7 +18,7 @@ void insertLopOrder(ListLop& listLop, Lop& lop/*, string type*/) {
 	}
 	int i, j;
 	//TIM KIEM VI TRI SE THEM VAO
-	for (i = 0; i < listLop.number && _stricmp(listLop.lop[i].MALOP, lop.MALOP) < 0; i++);
+	for (i = 0; i < listLop.number && _stricmp(listLop.lop[i].MALOP, lop.MALOP) > 0; i++);
 
 	//TINH TIEN TU VI TRI THU I DO
 	for (j = listLop.number - 1; j >= i; j--) {
