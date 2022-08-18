@@ -107,3 +107,13 @@ int kiemTraSinhVienCoDangKy(LISTDANGKY listDangKy, char MASV[15])
 	}
 	return 0;
 }
+
+float layDiemCuaSinhVienTrongDSDK(LISTDANGKY listDangKy, char MASV[15])
+{
+	for (NodeDK* k = listDangKy; k != NULL; k = k->next) {
+		if (strcmp(k->dangky.MASV, MASV) == 0) {
+		return k->dangky.DIEM;
+		}
+	}
+	return 0;
+}
