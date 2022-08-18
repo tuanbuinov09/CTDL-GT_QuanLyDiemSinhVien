@@ -169,6 +169,15 @@ NodeMH* timMonHocTheoMaMonHoc(TREE treeMonHoc, string MAMH_STR) {
 	}
 }
 
+int laySoTinChiCuaMH(TREE treeMonHoc, char MAMH[15]) {
+	int num = 0;
+	NodeMH* monhoc = timMonHocTheoMaMonHoc(treeMonHoc, MAMH);
+	if (monhoc != NULL) {
+		num = monhoc->MH.STCLT + monhoc->MH.STCTH;
+	}
+	return num;
+}
+
 int suaMonHoc(TREE& treeMonHoc, MonHoc monhoc) {
 	NodeMH* nodeMHCanSua = timMonHocTheoMaMonHoc(treeMonHoc, monhoc.MAMH);
 	if (nodeMHCanSua == NULL) {

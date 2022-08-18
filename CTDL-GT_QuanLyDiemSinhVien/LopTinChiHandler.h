@@ -124,12 +124,14 @@ string checkToHopKeyLopTinChi(DSLOPTINCHI listLopTinChi, string MAMH_STR, string
 string checkNIENKHOA(string NIENKHOA_STR) {
 	if (NIENKHOA_STR.empty()) return "NIENKHOA khong duoc de trong";
 	if (NIENKHOA_STR.length() > 15) return "NIENKHOA khong qua 15 ki tu";
-	//tên môn học có thể chứa số (ví dụ đường lối 1, 2)
-	/*for (int i = 0; i < TENMH.length(); i++) {
-		if (isdigit(TENMH[i])) {
-			return "TENMH khong duoc chua ki tu so";
+	for (int i = 0; i < NIENKHOA_STR.length(); i++) {
+		if (NIENKHOA_STR[i] == 32 && isalpha(NIENKHOA_STR[i + 1])) {
+			return "NIEN KHOA khong chua khoang trang giua cac so";
 		}
-	}*/
+		else if (!isdigit(NIENKHOA_STR[i])) {
+			return "NIEN KHOA khong duoc chua ki tu chu";
+		}
+	}
 	return "";
 }
 
@@ -361,12 +363,31 @@ void timLopTinChiConMoTheoNienKhoa(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listL
 		}
 	}
 }
+void timLopTinChiConMoTheoNienKhoaHK(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, char NIENKHOA[15], int HOCKY) {
+	listLopTinChiTheoNienKhoa.number = 0;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, NIENKHOA) == 0
+			&& listLopTinChi.loptinchi[i]->HOCKY == HOCKY
+			&& listLopTinChi.loptinchi[i]->HUYLOP == 0) {
+			LopTinChi lopTinChi;
+			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
 
+			insertLopTinChiOrderByMaLTC(listLopTinChiTheoNienKhoa, lopTinChi);
+		}
+	}
+}
 void sinhVienDangKyLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC_CANDANGKY, char MASV_DANGKY[15]) {
 	int index = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC_CANDANGKY);
 	DangKy dangky;
 	strcpy_s(dangky.MASV, MASV_DANGKY);
-	dangky.DIEM = -99;//chưa có điểm = -99
+	dangky.DIEM = 0;
 	themVaoListDangKy(listLopTinChi.loptinchi[index]->DSDK, dangky);
 }
 
@@ -383,4 +404,27 @@ int sinhVienDaDangKyMonNayNienKhoaHKNay(DSLOPTINCHI listLopTinChi, char MASV[15]
 		}
 	}
 	return 0;
+}
+
+
+float tinhDiemTrungBinhKhoaHocCuaSinhVien(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, char MASV[15]) {
+	float avg = 0;
+	float total = 0;
+	float tongSoTinChi = 0;
+
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			int soTinChiCuaMH = laySoTinChiCuaMH(treeMonHoc, listLopTinChi.loptinchi[i]->MAMH);
+
+			total = total + ((layDiemCuaSinhVienTrongDSDK(listLopTinChi.loptinchi[i]->DSDK, MASV) * soTinChiCuaMH));
+			tongSoTinChi = tongSoTinChi + soTinChiCuaMH;
+		}
+	}
+	if (tongSoTinChi != 0) {
+		avg = total / tongSoTinChi;
+		return avg;
+	}
+	else {
+		return -99;
+	}
 }

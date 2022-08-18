@@ -125,7 +125,7 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 
 		getline(fileIn, temp);
 		 
-			dangky.DIEM = stof(temp);// stof chuyeenr thanh float // nếu = -99 thì sinh viên chưa có điểm
+			dangky.DIEM = stof(temp);// stof chuyeenr thanh float // 
 		
 		if (maltc == lopTinChi.MALOPTC)
 		{
