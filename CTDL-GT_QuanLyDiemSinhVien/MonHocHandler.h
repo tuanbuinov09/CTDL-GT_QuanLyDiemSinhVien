@@ -169,6 +169,14 @@ void clearIndexListMonHoc(IndexListMonHoc& indexListMonHoc) {
 	delete[] indexListMonHoc.nodes;
 }
 
+int kiemTraMonHocDaTonTaiTrongIndexListMonHoc(IndexListMonHoc indexListMonHoc, char MAMH[15]) {
+	for (int i = 0; i < indexListMonHoc.number; i++) {
+		if (strcmp(indexListMonHoc.nodes[i].MAMH, MAMH) == 0) {
+			return 1;
+		}
+	}
+	return 0;
+}
 
 // lấy ra môn học theo mã môn học
 NodeMH* timMonHocTheoMaMonHoc(TREE treeMonHoc, string MAMH_STR) {

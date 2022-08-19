@@ -242,11 +242,10 @@ int deleteItem(DSLOPTINCHI& listLopTinChi, int i)
 }
 
 void clearListLopTinChi(DSLOPTINCHI& listLopTinChi) {
-	while (listLopTinChi.number != 0) {
-		deleteItem(listLopTinChi, 0);
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		delete listLopTinChi.loptinchi[i];
 	}
 	listLopTinChi.number = 0;
-//	delete[] listLopTinChi.loptinchi;
 
 }
 
@@ -427,4 +426,37 @@ float tinhDiemTrungBinhKhoaHocCuaSinhVien(DSLOPTINCHI listLopTinChi, TREE treeMo
 	else {
 		return -99;
 	}
+}
+
+void layTatCaMonHocSinhVienTrongListThamGia(DSLOPTINCHI listLopTinChi, IndexListMonHoc& indexListMonHoc, ListSinhVien listSinhVien) {
+	indexListMonHoc.number = 0;
+	indexListMonHoc.nodes = new IndexMonHoc[listLopTinChi.number];
+	for (int i = 0; i < listSinhVien.number; i++) {
+		for (int j = 0; j < listLopTinChi.number; j++) {
+			if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[j]->DSDK, listSinhVien.sinhvien[i]->MASV)) {
+				if (kiemTraMonHocDaTonTaiTrongIndexListMonHoc(indexListMonHoc, listLopTinChi.loptinchi[j]->MAMH) == 0) {// nếu trong list chưa có môn này
+					
+					indexListMonHoc.nodes[indexListMonHoc.number].index = indexListMonHoc.number;
+					strcpy_s(indexListMonHoc.nodes[indexListMonHoc.number].MAMH, listLopTinChi.loptinchi[j]->MAMH);
+					indexListMonHoc.number = indexListMonHoc.number + 1;
+
+				}
+			}
+		}
+	}
+}
+
+float layDiemCaoNhatMotMonCuaSinhVienTheoMonHoc(DSLOPTINCHI listLopTinChi, char MAMH[15], char MASV[15]) {
+	float maxMark = -99;
+	for (int i = 0; i < listLopTinChi.number;i++) {
+		if (strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH) == 0) { // nếu lớp tín chỉ cho môn đó
+			if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV)) {// ktra sv có đăng ký k
+				float tempMark = layDiemCuaSinhVienTrongDSDK(listLopTinChi.loptinchi[i]->DSDK, MASV);
+				if (tempMark > maxMark) {
+					maxMark = tempMark;
+				}
+			}
+		}
+	}
+	return maxMark;
 }
