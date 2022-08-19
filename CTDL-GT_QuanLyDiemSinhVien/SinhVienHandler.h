@@ -11,7 +11,7 @@ bool isListSinhVienFull(ListSinhVien& listSinhVien) {
 void insertSinhVienOrder(ListSinhVien& listSinhVien, SinhVien& sinhVien/*, string type*/) {
 	int i, j;
 	//TIM KIEM VI TRI SE THEM VAO
-	for (i = 0; i < listSinhVien.number && _stricmp(listSinhVien.sinhvien[i].MASV, sinhVien.MASV) < 0; i++);
+	for (i = 0; i < listSinhVien.number && _stricmp(listSinhVien.sinhvien[i]->MASV, sinhVien.MASV) < 0; i++);
 
 	//TINH TIEN TU VI TRI THU I DO
 	for (j = listSinhVien.number - 1; j >= i; j--) {
@@ -19,7 +19,8 @@ void insertSinhVienOrder(ListSinhVien& listSinhVien, SinhVien& sinhVien/*, strin
 	}
 
 	//TAO SINH VIEN MOI VA THEM VAO VI TRI DO
-	listSinhVien.sinhvien[i] = sinhVien;
+	listSinhVien.sinhvien[i] = new SinhVien;
+	*listSinhVien.sinhvien[i] = sinhVien;
 	listSinhVien.number++;
 }
 //SAP XEP THEO TEN SINHVIEN
@@ -60,16 +61,16 @@ void listSinhVienToListIndexSinhVien(ListSinhVien& listSinhVien, IndexList& sort
 
 	for (int i = 0; i < listSinhVien.number; i++) {
 		sortedListSinhVien.nodes[i].index = i;
-		strcpy_s(sortedListSinhVien.nodes[i].HO, listSinhVien.sinhvien[i].HO);
-		strcpy_s(sortedListSinhVien.nodes[i].TEN, listSinhVien.sinhvien[i].TEN);
+		strcpy_s(sortedListSinhVien.nodes[i].HO, listSinhVien.sinhvien[i]->HO);
+		strcpy_s(sortedListSinhVien.nodes[i].TEN, listSinhVien.sinhvien[i]->TEN);
 	}
 }
 
 void locSinhVienTheoLop(ListSinhVien& listSinhVienTheoLop, ListSinhVien& listSinhVien, char MALOP[15]) {
 
 	for (int i = 0; i < listSinhVien.number; i++) {
-		if (_stricmp(listSinhVien.sinhvien[i].MALOP, MALOP) == 0) {
-			insertSinhVienOrder(listSinhVienTheoLop, listSinhVien.sinhvien[i]);
+		if (_stricmp(listSinhVien.sinhvien[i]->MALOP, MALOP) == 0) {
+			insertSinhVienOrder(listSinhVienTheoLop, *listSinhVien.sinhvien[i]);
 		}
 	}
 }
@@ -99,8 +100,12 @@ int deleteItem(ListSinhVien& listSinhVien, int i)
 }
 
 void clearListSinhVien(ListSinhVien& listSinhVien) {
-	while (listSinhVien.number != 0) {
+	/*while (listSinhVien.number != 0) {
 		deleteItem(listSinhVien, 0);
+	}
+	listSinhVien.number = 0;*/
+	for (int i = 0; i < listSinhVien.number; i++) {
+		delete listSinhVien.sinhvien[i];
 	}
 	listSinhVien.number = 0;
 }
@@ -127,7 +132,7 @@ int xoaSinhVienTheoMaSV(ListSinhVien& listSinhVien, char MASV[15])
 	if (listSinhVien.number == 0)
 		return 0;
 	for (int i=0; i < listSinhVien.number; i++)
-		if (_stricmp(listSinhVien.sinhvien[i].MASV, MASV) == 0) {
+		if (_stricmp(listSinhVien.sinhvien[i]->MASV, MASV) == 0) {
 			deleteItem(listSinhVien, i);
 			break;
 		}
@@ -137,7 +142,7 @@ int xoaSinhVienTheoMaSV(ListSinhVien& listSinhVien, char MASV[15])
 int maSinhVienDaTonTai(ListSinhVien& listSinhVien, string MASV) {
 
 	for (int i = 0; i < listSinhVien.number; i++) {
-		if (_stricmp(listSinhVien.sinhvien[i].MASV, MASV.c_str()) == 0) {
+		if (_stricmp(listSinhVien.sinhvien[i]->MASV, MASV.c_str()) == 0) {
 			return 1;
 		}
 	}
@@ -222,12 +227,12 @@ void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSin
 	indexListSinhVien.nodes = new Index[listSinhVien.number];
 	for (int i = 0; i < listSinhVien.number; i++) {
 		char* output = NULL;
-		output = strstr(listSinhVien.sinhvien[i].TEN, tenSinhVien.c_str());
+		output = strstr(listSinhVien.sinhvien[i]->TEN, tenSinhVien.c_str());
 		if (output) {
 			Index indexSinhVien;
 			indexSinhVien.index = i;
-			strcpy_s(indexSinhVien.TEN, listSinhVien.sinhvien[i].TEN);
-			strcpy_s(indexSinhVien.HO, listSinhVien.sinhvien[i].HO);
+			strcpy_s(indexSinhVien.TEN, listSinhVien.sinhvien[i]->TEN);
+			strcpy_s(indexSinhVien.HO, listSinhVien.sinhvien[i]->HO);
 			indexListSinhVien.nodes[indexListSinhVien.number] = indexSinhVien;
 			indexListSinhVien.number++;
 		}
@@ -237,7 +242,7 @@ void searchListSinhVienByTen(ListSinhVien& listSinhVien, IndexList& indexListSin
 int timIndexSinhVienTheoMASV(ListSinhVien listSinhVien, char MASV_CANTIM[15]) {
 	int index = -1;
 	for (int i = 0; i < listSinhVien.number; i++) {
-		if (strcmp(listSinhVien.sinhvien[i].MASV, MASV_CANTIM) == 0) {
+		if (strcmp(listSinhVien.sinhvien[i]->MASV, MASV_CANTIM) == 0) {
 			index = i;
 			return index;
 		}

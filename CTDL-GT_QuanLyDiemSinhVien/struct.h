@@ -1,10 +1,10 @@
 #pragma once
 
-//#define MAXLOPTINCHI 10000
-//#define MAXDSSV 5000
+#define MAXLOPTINCHI 10000
+#define MAXDSSV 5000
 
-#define MAXLOPTINCHI 4000
-#define MAXDSSV 2000
+//#define MAXLOPTINCHI 4000
+//#define MAXDSSV 2000
 
 #define WIDTH_MAIN_FRAME 160
 #define HEIGHT_MAIN_FRAME 41
@@ -63,7 +63,7 @@ struct SinhVien {
 
 struct ListSinhVien {
 	int number = 0;
-	SinhVien sinhvien[MAXDSSV];
+	SinhVien* sinhvien[MAXDSSV];
 };
 
 struct Index {
@@ -181,7 +181,7 @@ struct Lop {
 
 struct ListLop {
 	int number = 0;
-	Lop lop[100];
+	Lop* lop[200];
 };
 
 struct IndexLop {

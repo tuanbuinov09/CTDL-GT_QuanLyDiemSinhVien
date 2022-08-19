@@ -5,7 +5,7 @@ using namespace std;
 
 int timMaLopTrongListLop(ListLop& listLop, char MALOP[15]) {
 	for (int i = 0; i < listLop.number; i++) {
-		if (_stricmp(listLop.lop[i].MALOP, MALOP) == 0) {
+		if (_stricmp(listLop.lop[i]->MALOP, MALOP) == 0) {
 			return 1;
 		}
 	}
@@ -18,14 +18,15 @@ void insertLopOrder(ListLop& listLop, Lop& lop/*, string type*/) {
 	}
 	int i, j;
 	//TIM KIEM VI TRI SE THEM VAO
-	for (i = 0; i < listLop.number && _stricmp(listLop.lop[i].MALOP, lop.MALOP) > 0; i++);
+	for (i = 0; i < listLop.number && _stricmp(listLop.lop[i]->MALOP, lop.MALOP) > 0; i++);
 
 	//TINH TIEN TU VI TRI THU I DO
 	for (j = listLop.number - 1; j >= i; j--) {
 		listLop.lop[j + 1] = listLop.lop[j];
 	}
 	//THEM LOP VAO
-	listLop.lop[i] = lop;
+	listLop.lop[i] = new Lop;
+	*listLop.lop[i] = lop;
 	listLop.number++;
 }
 
@@ -37,7 +38,7 @@ void listLopToIndexListLop(ListLop& listLop, IndexListLop& indexListLop)
 	indexListLop.nodes = new IndexLop[listLop.number];
 	for (int i = 0; i < listLop.number; i++) {
 		indexListLop.nodes[i].index = i;
-		strcpy_s(indexListLop.nodes[i].MALOP, listLop.lop[i].MALOP);
+		strcpy_s(indexListLop.nodes[i].MALOP, listLop.lop[i]->MALOP);
 	}
 }
 
@@ -50,11 +51,11 @@ void searchListLopByMaLop(ListLop& listLop, IndexListLop& indexListLop, string m
 
 	for (int i = 0; i < listLop.number; i++) {
 		char* output = NULL;
-		output = strstr(listLop.lop[i].MALOP, maLop.c_str());
+		output = strstr(listLop.lop[i]->MALOP, maLop.c_str());
 		if (output) {
 			IndexLop indexLop;
 			indexLop.index = i;
-			strcpy_s(indexLop.MALOP, listLop.lop[i].MALOP);
+			strcpy_s(indexLop.MALOP, listLop.lop[i]->MALOP);
 			indexListLop.nodes[indexListLop.number] = indexLop;
 			indexListLop.number++;
 		}
@@ -76,4 +77,15 @@ int deleteItem(IndexListLop& indexListLop, int i)
 void clearIndexListLop(IndexListLop& indexListLop) {
 	indexListLop.number = 0;
 	delete[] indexListLop.nodes;
+}
+
+void clearListLop(ListLop& listLop) {
+	/*while (listSinhVien.number != 0) {
+		deleteItem(listSinhVien, 0);
+	}
+	listSinhVien.number = 0;*/
+	for (int i = 0; i < listLop.number; i++) {
+		delete listLop.lop[i];
+	}
+	listLop.number = 0;
 }
