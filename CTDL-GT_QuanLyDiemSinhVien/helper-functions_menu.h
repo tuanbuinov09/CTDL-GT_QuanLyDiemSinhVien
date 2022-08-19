@@ -344,6 +344,8 @@ void menu(boolean isInit) {
 
 				clearListLopTinChi(listLopTinChi);
 				clearListLop(listLop);
+				clearListSinhVien(listSinhVien);
+				clearTreeMonHoc(treeMonHoc);
 
 				exit(0);
 			}
@@ -568,8 +570,8 @@ void titleBox(int y, int height, string text) {
 	box(x, y, width, height, COLOR_LIGHT_YELLOW, COLOR_BLACK, text, TEXT_CENTER);
 }
 
-void titleBoxTTSV(int y, int height, string text) {
-	int x = 4;
+void titleBoxLeft(int y, int height, string text) {
+	int x = 10;
 	int width = text.length() + 10;
 	box(x, y, width, height, COLOR_LIGHT_YELLOW, COLOR_BLACK, text, TEXT_CENTER);
 }
@@ -716,7 +718,8 @@ void coutBox(int x, int y, int width, int align, string text) {
 //=================== BANG SINH VIEN ===================
 void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
 	ShowCur(0);
-	titleBox(1, 3, "QUAN LY SINH VIEN LOP " + convertToString(MALOP));
+	/*titleBox(1, 3, "QUAN LY SINH VIEN LOP " + convertToString(MALOP));*/
+	titleBoxLeft(2, 3, "QUAN LY SINH VIEN LOP " + convertToString(MALOP));
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -730,7 +733,7 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 	int row = 12;
 	const int column = 6;
 	string title[column] = { "STT", "MASV", "HO", "TEN", "PHAI", "SDT"/*, "MALOP"*/ };
-	int cellWidth[column] = { 10, 20, 25, 15, 15, 20/*, 20*/ };
+	int cellWidth[column] = { 10, 20, 30, 15, 15, 25/*, 20*/ };
 
 	int iy = y + 2;
 
@@ -825,9 +828,9 @@ void listSinhVienTable(ListSinhVien& listSinhVien, ListSinhVien& listSinhVienThe
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 17, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 17, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListSinhVien.number / row + 1;
 
 				i = 0;
@@ -1407,7 +1410,8 @@ int popUpSuaSinhVien(ListSinhVien& listSinhVien, char MASV[15]) {
 //=================== BANG DIEM TB CUOI KHOA CUA SV THUOC LOP===================
 void listBangDiemTBSinhVienTable(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
 	ShowCur(0);
-	titleBox(1, 3, "BANG DIEM TB KHOA HOC CUA SV LOP " + convertToString(MALOP));
+	//titleBox(1, 3, "BANG DIEM TB KHOA HOC CUA SV LOP " + convertToString(MALOP));
+	titleBoxLeft(2, 3, "BANG DIEM TB KHOA HOC CUA SV LOP " + convertToString(MALOP));
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -1776,7 +1780,8 @@ void listBangDiemTBSinhVienTable(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, Lis
 //=================== BANG CHON LOP DE XEM SINH VIEN ===================
 void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, string viewMode, bool isSearch) {
 	ShowCur(0);
-	titleBox(1, 3, "CHON LOP DE XEM");
+	//titleBox(1, 3, "CHON LOP DE XEM");
+	titleBoxLeft(2, 3, "CHON LOP DE XEM");
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -1790,7 +1795,7 @@ void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, string v
 	int row = 12;
 	const int column = 2;
 	string title[column] = { "STT", "MALOP" };
-	int cellWidth[column] = { 10, 60 };
+	int cellWidth[column] = { 10, 62 };
 
 	int iy = y + 2;
 
@@ -1867,9 +1872,9 @@ void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, string v
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 59, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 59, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << indexListLop.number / row + 1;
 
 				i = 0;
@@ -2143,7 +2148,8 @@ void listLop_ChonLopTable(ListLop& listLop, IndexListLop& indexListLop, string v
 //=================== BANG MON HOC ===================
 void treeMonHocTable(TREE& treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool isSearch) {
 	ShowCur(0);
-	titleBox(1, 3, "QUAN LY MON HOC");
+	/*titleBox(1, 3, "QUAN LY MON HOC");*/
+	titleBoxLeft(2, 3, "QUAN LY MON HOC");
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -2245,9 +2251,9 @@ void treeMonHocTable(TREE& treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool i
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 18, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 18, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListMonHoc.number / row + 1;
 
 				i = 0;
@@ -2839,7 +2845,8 @@ int popUpSuaMonHoc(TREE& treeMonHoc, char MAMH_CANSUA[15], IndexListMonHoc& sort
 //=================== BANG CHON MON HOC DE TAO LTC ===================
 void tree_ChonMonHocTable(TREE treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool isSearch) {
 	ShowCur(0);
-	titleBox(1, 3, "CHON MON HOC DE TAO LTC");
+	/*titleBox(1, 3, "CHON MON HOC DE TAO LTC");*/
+	titleBoxLeft(2, 3, "CHON MON HOC DE TAO LTC");
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -2941,9 +2948,9 @@ void tree_ChonMonHocTable(TREE treeMonHoc, IndexListMonHoc& sortedListMonHoc, bo
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 17, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage - 17, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListMonHoc.number / row + 1;
 
 				i = 0;
@@ -3241,7 +3248,8 @@ void tree_ChonMonHocTable(TREE treeMonHoc, IndexListMonHoc& sortedListMonHoc, bo
 
 void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
 	ShowCur(0);
-	titleBox(1, 3, "QUAN LY LOP TIN CHI");
+	/*titleBox(1, 3, "QUAN LY LOP TIN CHI");*/
+	titleBoxLeft(2, 3, "QUAN LY LOP TIN CHI");
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -3361,9 +3369,9 @@ void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedLi
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage + 8, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage + 8, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListLopTinChi.number / row + 1;
 
 				i = 0;
@@ -3653,7 +3661,8 @@ void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedLi
 
 void listLopTinChi_ChonLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
 	ShowCur(0);
-	titleBox(1, 3, "DANH SACH LOP TIN CHI");
+	//titleBox(1, 3, "DANH SACH LOP TIN CHI");
+	titleBoxLeft(2, 3, "DANH SACH LOP TIN CHI");
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -3773,9 +3782,9 @@ void listLopTinChi_ChonLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTi
 				}
 
 				setTextColor(COLOR_LIGHT_YELLOW);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage + 7, yPage);
 				cout << generateSpace(10);
-				gotoXY(xPage, yPage);
+				gotoXY(xPage + 7, yPage);
 				cout << "TRANG " << currentIndex / row + 1 << "/" << sortedListLopTinChi.number / row + 1;
 
 				i = 0;
@@ -4443,7 +4452,8 @@ int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, Inde
 //=================== BANG SINH VIEN DANG KY LOP TC ===================
 void listSinhVienDangKyTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
 	ShowCur(0);
-	titleBox(1, 3, "DSSV DANG KY LOP: " + tabletitle);
+	//titleBox(1, 3, "DSSV DANG KY LOP: " + tabletitle);
+	titleBoxLeft(2, 3, "DSSV DANG KY LOP: " + tabletitle);
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);
@@ -5060,9 +5070,9 @@ void popUpNhapNienKhoaHocKy(SinhVien sinhvien) {
 void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, IndexListLopTinChi& sortedListLopTinChiTheoNienKhoa, SinhVien sinhvien, bool isSearch) {
 	ShowCur(0);
 	string ttsv = "MASV: " + convertToString(sinhvien.MASV) +
-		"; HO TEN: " + convertToString(sinhvien.HO) + " " + convertToString(sinhvien.TEN) +
-		";  PHAI: " + (sinhvien.PHAI == 0 ? "NU" : "NAM") + "; SDT:" + convertToString(sinhvien.SODT) + "; MALOP: " + convertToString(sinhvien.MALOP);
-	titleBoxTTSV(1, 3, ttsv);
+		"   HO TEN: " + convertToString(sinhvien.HO) + " " + convertToString(sinhvien.TEN) +
+		"   PHAI: " + (sinhvien.PHAI == 0 ? "NU" : "NAM") + "   SDT:" + convertToString(sinhvien.SODT) + "   MALOP: " + convertToString(sinhvien.MALOP);
+	titleBoxLeft(2, 3, ttsv);
 
 	int width = 20;
 	int height = 2;
@@ -5491,7 +5501,8 @@ void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& l
 //=================== BANG DIEM CUA LOP TC ===================
 void bangDiemLTCTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
 	ShowCur(0);
-	titleBox(1, 3, "BANG DIEM LTC: " + tabletitle);
+	//titleBox(1, 3, "BANG DIEM LTC: " + tabletitle);
+	titleBoxLeft(2, 3, "BANG DIEM LTC: " + tabletitle);
 	int width = 20;
 	int height = 2;
 	int x = getCenterX(WIDTH_MAIN_FRAME, width * 7);

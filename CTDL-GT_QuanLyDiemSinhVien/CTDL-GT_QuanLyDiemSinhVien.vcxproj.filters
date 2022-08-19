@@ -26,7 +26,7 @@
     <ClInclude Include="mylib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="helper-functions.h">
+    <ClInclude Include="helper-functions_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="file-handler.h">
