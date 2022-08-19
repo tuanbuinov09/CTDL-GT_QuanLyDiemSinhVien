@@ -87,6 +87,30 @@ int xoaMonHocTrongCayByMAMH(TREE& treeMonHoc, char MAMH[15]) {
 		}
 	}
 }
+// giải phóng vùng nhớ cho cây
+void clearTreeMonHoc(TREE& treeMonHoc){
+	while(treeMonHoc!=NULL){
+		{
+			NodeMH* p = treeMonHoc; // node sau này sẽ xóa
+
+			if (treeMonHoc->left == NULL) { // nếu node k có bên trái, 
+				//node cần xóa = node cần xóa trỏ đến right (h right đang ở chỗ của node)
+				treeMonHoc = treeMonHoc->right;
+			}
+			else if (treeMonHoc->right == NULL) {// nếu node k có bên phải
+				//node cần xóa = node cần xóa trỏ đến left (h left đang ở chỗ của node)
+				treeMonHoc = treeMonHoc->left;
+			}
+			else {//node có 2 con
+				//tìm sang bên trái cùng của nhánh phải, chính là node thay thế
+				NodeMH* q = treeMonHoc->right;
+				timNodeTheMang(p, q);
+
+			}
+			delete p; //xóa node cần xóa, cho cả trường hợp node k có left right (không cần cập nhật liên kết)
+		}
+	}
+ }
 
 // duyejt cây
 void duyetCayNLR(TREE treeMonHoc) {

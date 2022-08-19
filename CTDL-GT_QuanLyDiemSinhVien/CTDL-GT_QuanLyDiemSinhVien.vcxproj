@@ -146,7 +146,7 @@
   <ItemGroup>
     <ClInclude Include="DangKyHandler.h" />
     <ClInclude Include="file-handler.h" />
-    <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="helper-functions_menu.h" />
     <ClInclude Include="LopHandler.h" />
     <ClInclude Include="LopTinChiHandler.h" />
     <ClInclude Include="MonHocHandler.h" />

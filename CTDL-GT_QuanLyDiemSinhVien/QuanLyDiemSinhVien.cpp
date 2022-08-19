@@ -4,7 +4,7 @@
 #include <iostream>
 #include "struct.h"
 #include "mylib.h"
-#include "helper-functions.h"
+#include "helper-functions_menu.h"
 
 int main()
 {
