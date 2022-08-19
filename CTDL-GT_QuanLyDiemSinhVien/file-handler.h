@@ -184,8 +184,8 @@ int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 		insertLopTinChiOrderByMaLTC(listLopTinChi, lopTinChi);
 		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
 	}
-	return maxMALOPTC; // trả về maxMALOPTC
 	fileIn.close();
+	return maxMALOPTC; // trả về maxMALOPTC
 }
 
 //=================== GHI FILE SINH VIEN ===================
@@ -196,7 +196,7 @@ void writeFileSinhVien(ListSinhVien& listSinhVien) {
 	if (fileDSSVOut.fail()) return;
 	for (int i = 0; i < listSinhVien.number; i++)
 	{
-		SinhVien sinhvien = listSinhVien.sinhvien[i];
+		SinhVien sinhvien = *listSinhVien.sinhvien[i];
 
 		fileDSSVOut << sinhvien.MASV << "|";
 		fileDSSVOut << sinhvien.HO << "|";

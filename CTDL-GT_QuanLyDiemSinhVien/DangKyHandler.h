@@ -55,8 +55,8 @@ void listDangKyToIndexListDangKy(LISTDANGKY listDangKy, IndexListDangKy& indexLi
 		indexListDangKy.nodes[indexListDangKy.number].index = indexListDangKy.number;
 		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].MASV, k->dangky.MASV);
 		int indexSV = timIndexSinhVienTheoMASV(listSinhVien, k->dangky.MASV);
-		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].HO, listSinhVien.sinhvien[indexSV].HO);
-		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].TEN, listSinhVien.sinhvien[indexSV].TEN);
+		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].HO, listSinhVien.sinhvien[indexSV]->HO);
+		strcpy_s(indexListDangKy.nodes[indexListDangKy.number].TEN, listSinhVien.sinhvien[indexSV]->TEN);
 
 		indexListDangKy.nodes[indexListDangKy.number].DIEM = k->dangky.DIEM;
 	
