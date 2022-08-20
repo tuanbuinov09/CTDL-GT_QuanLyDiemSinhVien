@@ -29,7 +29,6 @@
 #define TEXT_CENTER 0
 #define TEXT_RIGHT 1
 
-
 #define UP 72
 #define DOWN 80
 #define LEFT 75
@@ -81,7 +80,7 @@ struct NodeDK {
 	NodeDK* next;
 };
 
-typedef NodeDK* LISTDANGKY;
+typedef NodeDK* ListDangKy;
 
 /*
 * — Cau truc Danh Sach Lop Tin Chi —
@@ -95,11 +94,12 @@ struct LopTinChi {
 	int NHOM; //Nhom
 	int MINSV; //So Sinh Vien Toi Thieu
 	int MAXSV; //So Sinh Vien Toi Da
-	bool HUYLOP; //(true= Giu lop; false= xoa lop)
-	LISTDANGKY DSDK;
+	bool HUYLOP; //(false= con mo ; true= da huy)
+
+	ListDangKy DSDK;
 };
 
-struct DSLOPTINCHI {
+struct ListLopTinChi {
 	int number = 0;
 	LopTinChi* loptinchi[MAXLOPTINCHI];
 };
@@ -118,7 +118,7 @@ struct MonHoc {
 
 struct NodeMH {
 	MonHoc MH;
-	int bf;
+	
 	NodeMH* left, * right;
 };
 typedef NodeMH* TREE;

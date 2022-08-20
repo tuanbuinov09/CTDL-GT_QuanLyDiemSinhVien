@@ -6,7 +6,7 @@ using namespace std;
 #include <iostream>
 
 //THEM LOP TIN CHI
-void insertLopTinChiOrderByMaLTC(DSLOPTINCHI& listLopTinChi, LopTinChi& lopTinChi) {
+void insertLopTinChiOrderByMaLTC(ListLopTinChi& listLopTinChi, LopTinChi& lopTinChi) {
 	int i, j;
 	//TIM KIEM VI TRI SE THEM VAO
 	for (i = 0; i < listLopTinChi.number && listLopTinChi.loptinchi[i]->MALOPTC < lopTinChi.MALOPTC; i++);
@@ -22,7 +22,7 @@ void insertLopTinChiOrderByMaLTC(DSLOPTINCHI& listLopTinChi, LopTinChi& lopTinCh
 	listLopTinChi.number++;
 }
 
-void duyetLopTinChi(DSLOPTINCHI listLopTinChi) {
+void duyetLopTinChi(ListLopTinChi listLopTinChi) {
 	for (int i = 0; i < listLopTinChi.number; i++) {
 		cout << listLopTinChi.loptinchi[i]->MALOPTC << " ";
 		cout << "\n";
@@ -31,7 +31,7 @@ void duyetLopTinChi(DSLOPTINCHI listLopTinChi) {
 }
 
 
-void listLopTinChiToIndexListLopTinChi(DSLOPTINCHI listLopTinChi, IndexListLopTinChi& indexListLopTinChi)
+void listLopTinChiToIndexListLopTinChi(ListLopTinChi listLopTinChi, IndexListLopTinChi& indexListLopTinChi)
 {
 	indexListLopTinChi.number = listLopTinChi.number;
 	indexListLopTinChi.nodes = new IndexLopTinChi[listLopTinChi.number];
@@ -59,7 +59,7 @@ bool isSortedListLopTinChiEmpty(IndexListLopTinChi indexListLopTinChi) {
 	return indexListLopTinChi.number == 0 ? true : false;
 }
 
-bool isListLopTinChiFull(DSLOPTINCHI listLopTinChi) {
+bool isListLopTinChiFull(ListLopTinChi listLopTinChi) {
 	return listLopTinChi.number == MAXLOPTINCHI ? true : false;
 }
 
@@ -68,7 +68,7 @@ void clearIndexListLopTinChi(IndexListLopTinChi& listLopTinChi) {
 	delete[] listLopTinChi.nodes;
 }
 
-int timIndexLopTinChiTheoMALTC(DSLOPTINCHI listLopTinChi, int MALOPTC) {
+int timIndexLopTinChiTheoMALTC(ListLopTinChi listLopTinChi, int MALOPTC) {
 	int index = -1;
 	for (int i = 0; i < listLopTinChi.number; i++) {
 		if (listLopTinChi.loptinchi[i]->MALOPTC == MALOPTC) {
@@ -106,7 +106,7 @@ string checkMaMonHocLopTinChi(TREE& treeMonHoc, string MAMH_STR) {
 	else return "";
 }
 // KIEM TRA TO HOP KHOA (MAMH, NIENKHOA, HOCKY, NHOM)
-string checkToHopKeyLopTinChi(DSLOPTINCHI listLopTinChi, string MAMH_STR, string NIENKHOA_STR, string HOCKY_STR, string NHOM_STR) {
+string checkToHopKeyLopTinChi(ListLopTinChi listLopTinChi, string MAMH_STR, string NIENKHOA_STR, string HOCKY_STR, string NHOM_STR) {
 	for (int i = 0; i < listLopTinChi.number; i++) {
 		if (
 			(strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH_STR.c_str()) == 0)
@@ -143,7 +143,7 @@ int timSoLuongSinhVienDaDangKyLTC(LopTinChi* lopTinChi) {
 	return dem;
 }
 
-string checkHUYLOPTC(DSLOPTINCHI listLopTinChi, int maLopTinChi, string oldHUYLOP_STR, string HUYLOP_STR) {
+string checkHUYLOPTC(ListLopTinChi listLopTinChi, int maLopTinChi, string oldHUYLOP_STR, string HUYLOP_STR) {
 	//KIEM TRA HUY LOP
 	string moLop = "MO";
 	string huyLop = "HUY";
@@ -164,7 +164,7 @@ string checkHUYLOPTC(DSLOPTINCHI listLopTinChi, int maLopTinChi, string oldHUYLO
 	return "";
 }
 
-int suaLopTinChi(DSLOPTINCHI& listLopTinChi, LopTinChi lopTinChi) {
+int suaLopTinChi(ListLopTinChi& listLopTinChi, LopTinChi lopTinChi) {
 	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, lopTinChi.MALOPTC);
 	LopTinChi* ltcCanSua = listLopTinChi.loptinchi[i];
 	if (ltcCanSua == NULL) {
@@ -177,7 +177,7 @@ int suaLopTinChi(DSLOPTINCHI& listLopTinChi, LopTinChi lopTinChi) {
 		return 1;
 	}
 }
-string kiemTraXoaLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC) {
+string kiemTraXoaLopTinChi(ListLopTinChi& listLopTinChi, int MALTC) {
 	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
 	LopTinChi* ltcCanXoa = listLopTinChi.loptinchi[i];
 	if (ltcCanXoa == NULL) {
@@ -190,7 +190,7 @@ string kiemTraXoaLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC) {
 	}
 }
 
-string kiemTraSuaMAXSV(DSLOPTINCHI& listLopTinChi, int MALTC, string MAXSV_STR) {
+string kiemTraSuaMAXSV(ListLopTinChi& listLopTinChi, int MALTC, string MAXSV_STR) {
 	int i = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC);
 	LopTinChi* ltcCanSua = listLopTinChi.loptinchi[i];
 	if (timSoLuongSinhVienDaDangKyLTC(ltcCanSua) > stoi(MAXSV_STR))
@@ -198,7 +198,7 @@ string kiemTraSuaMAXSV(DSLOPTINCHI& listLopTinChi, int MALTC, string MAXSV_STR) 
 	return "";
 }
 
-int xoaLopTinChiTheoMaLTC(DSLOPTINCHI& listLopTinChi, int MALTC)
+int xoaLopTinChiTheoMaLTC(ListLopTinChi& listLopTinChi, int MALTC)
 {
 	if (listLopTinChi.number == 0)
 		return 0;
@@ -208,114 +208,14 @@ int xoaLopTinChiTheoMaLTC(DSLOPTINCHI& listLopTinChi, int MALTC)
 	for (int k = i; k < listLopTinChi.number - 1; k++) {
 		listLopTinChi.loptinchi[k] = listLopTinChi.loptinchi[k + 1];
 	}
-	listLopTinChi.number = listLopTinChi.number--;
-	return 1;
-}
-
-//TIM KIEM DANH SACH LTC THEO NIEN KHOA
-void seachListLopTinChiTheoNienKhoa(DSLOPTINCHI listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, string NIENKHOA_STR) {
-	sortedListLopTinChi.number = 0;
-	sortedListLopTinChi.nodes = new IndexLopTinChi[listLopTinChi.number];
-
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		char* output = NULL;
-		output = strstr(listLopTinChi.loptinchi[i]->NIENKHOA, NIENKHOA_STR.c_str());
-		if (output) {
-			IndexLopTinChi indexLopTinChi;
-			indexLopTinChi.index = i;
-			strcpy_s(indexLopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
-			sortedListLopTinChi.nodes[sortedListLopTinChi.number] = indexLopTinChi;
-			sortedListLopTinChi.number++;
-		}
-	}
-}
-
-int deleteItem(DSLOPTINCHI& listLopTinChi, int i)
-{
-	if (i < 0 || i >= listLopTinChi.number || listLopTinChi.number == 0)
-		return 0;
-	for (int j = i + 1; j < listLopTinChi.number; j++)
-		listLopTinChi.loptinchi[j - 1] = listLopTinChi.loptinchi[j];
-
 	listLopTinChi.number--;
 	return 1;
 }
 
-void clearListLopTinChi(DSLOPTINCHI& listLopTinChi) {
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		delete listLopTinChi.loptinchi[i];
-	}
-	listLopTinChi.number = 0;
-
-}
-
-int sinhVienDaDangKyLopTinChi(DSLOPTINCHI listLopTinChi, char MASV[15]) {
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int monHocDaDuocDungDeDangKyLTC(DSLOPTINCHI listLopTinChi, char MAMH[10]) {
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		if (strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH) == 0) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-
-void timLopTinChiSinhVienDaDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienDaDangKy, char MASV[15]) {
-	listLopTinChiSinhVienDaDangKy.number = 0;
-	for (int i = 0; i < listLopTinChi.number; i++) {
-		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
-			LopTinChi lopTinChi; 
-			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
-			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
-			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
-			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
-			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
-			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
-			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
-			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
-
-			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
-		}
-	}
-}
-
-//void timLopTinChiSinhVienCoTheDangKy(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienCoTheDangKy, char MASV[15]) {
-//	listLopTinChiSinhVienCoTheDangKy.number = 0;
-//	for (int i = 0; i < listLopTinChi.number; i++) {
-//		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 0) {
-//			LopTinChi lopTinChi;
-//			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
-//			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
-//			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
-//			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
-//			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
-//			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
-//			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
-//			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
-//
-//			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienCoTheDangKy, lopTinChi);
-//		}
-//	}
-//}
-
-//KIEM TRA DANH SACH DANG KY RONG
-bool isDanhSachDangKyEmpty(LISTDANGKY first) {
-	if (first == NULL) return true;
-	return false;
-}
-
 // sinh viên hủy đăng ký
 //Xoa tat ca cac truong hop trong danh sach dang ky cua lop tin chi
-void xoaTrongDanhSachDangKyTheoMaSinhVien(LISTDANGKY& first, char MASV[15]) {
-	if (isDanhSachDangKyEmpty(first)) return;
+void xoaTrongDanhSachDangKyTheoMaSinhVien(ListDangKy& first, char MASV[15]) {
+	if (isListDangKyEmpty(first)) return;
 
 	if (strcmp(first->dangky.MASV, MASV) == 0) {
 		NodeDK* p = first;    // nut can xoa la nut dau
@@ -343,7 +243,108 @@ void xoaTrongDanhSachDangKyTheoMaSinhVien(LISTDANGKY& first, char MASV[15]) {
 		delete q;
 	}
 }
-void timLopTinChiConMoTheoNienKhoa(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, int current_NIENKHOA) {
+
+//TIM KIEM DANH SACH LTC THEO NIEN KHOA
+void seachListLopTinChiTheoNienKhoa(ListLopTinChi listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, string NIENKHOA_STR) {
+	sortedListLopTinChi.number = 0;
+	sortedListLopTinChi.nodes = new IndexLopTinChi[listLopTinChi.number];
+
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		char* output = NULL;
+		output = strstr(listLopTinChi.loptinchi[i]->NIENKHOA, NIENKHOA_STR.c_str());
+		if (output) {
+			IndexLopTinChi indexLopTinChi;
+			indexLopTinChi.index = i;
+			strcpy_s(indexLopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			sortedListLopTinChi.nodes[sortedListLopTinChi.number] = indexLopTinChi;
+			sortedListLopTinChi.number++;
+		}
+	}
+}
+
+int deleteItem(ListLopTinChi& listLopTinChi, int i)
+{
+	if (i < 0 || i >= listLopTinChi.number || listLopTinChi.number == 0)
+		return 0;
+	for (int j = i + 1; j < listLopTinChi.number; j++)
+		listLopTinChi.loptinchi[j - 1] = listLopTinChi.loptinchi[j];
+
+	listLopTinChi.number--;
+	return 1;
+}
+
+void clearListLopTinChi(ListLopTinChi& listLopTinChi) {
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		delete listLopTinChi.loptinchi[i];
+	}
+	listLopTinChi.number = 0;
+
+}
+
+int sinhVienDaDangKyLopTinChi(ListLopTinChi listLopTinChi, char MASV[15]) {
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int monHocDaDuocDungDeDangKyLTC(ListLopTinChi listLopTinChi, char MAMH[10]) {
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH) == 0) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
+void timLopTinChiSinhVienDaDangKy(ListLopTinChi listLopTinChi, ListLopTinChi& listLopTinChiSinhVienDaDangKy, char MASV[15]) {
+	listLopTinChiSinhVienDaDangKy.number = 0;
+	for (int i = 0; i < listLopTinChi.number; i++) {
+		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 1) {
+			LopTinChi lopTinChi; 
+			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+
+			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienDaDangKy, lopTinChi);
+		}
+	}
+}
+
+//void timLopTinChiSinhVienCoTheDangKy(ListLopTinChi listLopTinChi, ListLopTinChi& listLopTinChiSinhVienCoTheDangKy, char MASV[15]) {
+//	listLopTinChiSinhVienCoTheDangKy.number = 0;
+//	for (int i = 0; i < listLopTinChi.number; i++) {
+//		if (kiemTraSinhVienCoDangKy(listLopTinChi.loptinchi[i]->DSDK, MASV) == 0) {
+//			LopTinChi lopTinChi;
+//			lopTinChi.MALOPTC = listLopTinChi.loptinchi[i]->MALOPTC;
+//			strcpy_s(lopTinChi.MAMH, listLopTinChi.loptinchi[i]->MAMH);
+//			strcpy_s(lopTinChi.NIENKHOA, listLopTinChi.loptinchi[i]->NIENKHOA);
+//			lopTinChi.HOCKY = listLopTinChi.loptinchi[i]->HOCKY;
+//			lopTinChi.NHOM = listLopTinChi.loptinchi[i]->NHOM;
+//			lopTinChi.MINSV = listLopTinChi.loptinchi[i]->MINSV;
+//			lopTinChi.MAXSV = listLopTinChi.loptinchi[i]->MAXSV;
+//			lopTinChi.HUYLOP = listLopTinChi.loptinchi[i]->HUYLOP;
+//
+//			insertLopTinChiOrderByMaLTC(listLopTinChiSinhVienCoTheDangKy, lopTinChi);
+//		}
+//	}
+//}
+
+//KIEM TRA DANH SACH DANG KY RONG
+bool isDanhSachDangKyEmpty(ListDangKy first) {
+	if (first == NULL) return true;
+	return false;
+}
+
+void timLopTinChiConMoTheoNienKhoa(ListLopTinChi listLopTinChi, ListLopTinChi& listLopTinChiTheoNienKhoa, int current_NIENKHOA) {
 	listLopTinChiTheoNienKhoa.number = 0;
 	for (int i = 0; i < listLopTinChi.number; i++) {
 		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, std::to_string(current_NIENKHOA).c_str()) == 0
@@ -362,7 +363,7 @@ void timLopTinChiConMoTheoNienKhoa(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listL
 		}
 	}
 }
-void timLopTinChiConMoTheoNienKhoaHK(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, char NIENKHOA[15], int HOCKY) {
+void timLopTinChiConMoTheoNienKhoaHK(ListLopTinChi listLopTinChi, ListLopTinChi& listLopTinChiTheoNienKhoa, char NIENKHOA[15], int HOCKY) {
 	listLopTinChiTheoNienKhoa.number = 0;
 	for (int i = 0; i < listLopTinChi.number; i++) {
 		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, NIENKHOA) == 0
@@ -382,7 +383,7 @@ void timLopTinChiConMoTheoNienKhoaHK(DSLOPTINCHI listLopTinChi, DSLOPTINCHI& lis
 		}
 	}
 }
-void sinhVienDangKyLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC_CANDANGKY, char MASV_DANGKY[15]) {
+void sinhVienDangKyLopTinChi(ListLopTinChi& listLopTinChi, int MALTC_CANDANGKY, char MASV_DANGKY[15]) {
 	int index = timIndexLopTinChiTheoMALTC(listLopTinChi, MALTC_CANDANGKY);
 	DangKy dangky;
 	strcpy_s(dangky.MASV, MASV_DANGKY);
@@ -390,7 +391,7 @@ void sinhVienDangKyLopTinChi(DSLOPTINCHI& listLopTinChi, int MALTC_CANDANGKY, ch
 	themVaoListDangKy(listLopTinChi.loptinchi[index]->DSDK, dangky);
 }
 
-int sinhVienDaDangKyMonNayNienKhoaHKNay(DSLOPTINCHI listLopTinChi, char MASV[15], LopTinChi* loptinchi) {
+int sinhVienDaDangKyMonNayNienKhoaHKNay(ListLopTinChi listLopTinChi, char MASV[15], LopTinChi* loptinchi) {
 	for (int i = 0; i < listLopTinChi.number;i++) {
 		// tìm tới 1 môn có cùng niên khóa, môn học, học kỳ(k cần tính tới nhóm vì k thể học 2 nhóm được)
 		if (strcmp(listLopTinChi.loptinchi[i]->NIENKHOA, loptinchi->NIENKHOA) == 0
@@ -406,7 +407,7 @@ int sinhVienDaDangKyMonNayNienKhoaHKNay(DSLOPTINCHI listLopTinChi, char MASV[15]
 }
 
 
-float tinhDiemTrungBinhKhoaHocCuaSinhVien(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, char MASV[15]) {
+float tinhDiemTrungBinhKhoaHocCuaSinhVien(ListLopTinChi listLopTinChi, TREE treeMonHoc, char MASV[15]) {
 	float avg = 0;
 	float total = 0;
 	float tongSoTinChi = 0;
@@ -428,7 +429,7 @@ float tinhDiemTrungBinhKhoaHocCuaSinhVien(DSLOPTINCHI listLopTinChi, TREE treeMo
 	}
 }
 
-void layTatCaMonHocSinhVienTrongListThamGia(DSLOPTINCHI listLopTinChi, IndexListMonHoc& indexListMonHoc, ListSinhVien listSinhVien) {
+void layTatCaMonHocSinhVienTrongListThamGia(ListLopTinChi listLopTinChi, IndexListMonHoc& indexListMonHoc, ListSinhVien listSinhVien) {
 	indexListMonHoc.number = 0;
 	indexListMonHoc.nodes = new IndexMonHoc[listLopTinChi.number];
 	for (int i = 0; i < listSinhVien.number; i++) {
@@ -446,7 +447,7 @@ void layTatCaMonHocSinhVienTrongListThamGia(DSLOPTINCHI listLopTinChi, IndexList
 	}
 }
 
-float layDiemCaoNhatMotMonCuaSinhVienTheoMonHoc(DSLOPTINCHI listLopTinChi, char MAMH[15], char MASV[15]) {
+float layDiemCaoNhatMotMonCuaSinhVienTheoMonHoc(ListLopTinChi listLopTinChi, char MAMH[15], char MASV[15]) {
 	float maxMark = -99;
 	for (int i = 0; i < listLopTinChi.number;i++) {
 		if (strcmp(listLopTinChi.loptinchi[i]->MAMH, MAMH) == 0) { // nếu lớp tín chỉ cho môn đó

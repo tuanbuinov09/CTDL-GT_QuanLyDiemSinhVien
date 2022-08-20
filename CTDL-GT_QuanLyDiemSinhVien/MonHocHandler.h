@@ -9,7 +9,7 @@ void khoiTaoCay(TREE& treeMonHoc) {
 }
 
 void themMonHocVaoCay(TREE& treeMonHoc, MonHoc monhoc) {
-	//nếu cây rỗng
+	//
 	if (treeMonHoc == NULL) {
 		NodeMH* p = new NodeMH();
 		strcpy_s(p->MH.MAMH, monhoc.MAMH);
@@ -45,15 +45,14 @@ void timNodeTheMang(TREE& p, TREE& q) {
 		timNodeTheMang(p, q->left);//tim node trai nhat
 	}
 	else { // tim dc node trai nhat r
-		p->MH = q->MH;// cập nhật data của node cần xóa = node trái nhất (nhỏ nhất của cây bên phải)
-		p = q; // cho node cần xóa trỏ đến l
-		q = q->right; // l->right : NULL // cập nhật lại liên kết node cha của node thay thế
+		p->MH = q->MH;
+		p = q;
+		q = q->right;
 	}
 }
 
 // xóa sao cho đảm bảo tính chất bên trái mã luôn nhỏ hơn bên phải
 int xoaMonHocTrongCayByMAMH(TREE& treeMonHoc, char MAMH[15]) {
-	//nếu cây rỗng
 	if (treeMonHoc == NULL) {
 		return 0;
 	}
@@ -65,24 +64,22 @@ int xoaMonHocTrongCayByMAMH(TREE& treeMonHoc, char MAMH[15]) {
 		else if (strcmp(MAMH, treeMonHoc->MH.MAMH) > 0) {
 			xoaMonHocTrongCayByMAMH(treeMonHoc->right, MAMH);
 		}
-		else { //strcmp(MAMH, treeMonHoc->MH.MAMH) == 0 nếu mã đang trỏ  =  mã cần tìm, trả kết quả
-			NodeMH* p = treeMonHoc; // node sau này sẽ xóa
+		else { //strcmp(MAMH, treeMonHoc->MH.MAMH) == 0 nếu mã đang trỏ  =  mã cần tìm
+			NodeMH* p = treeMonHoc; 
 
-			if (treeMonHoc->left == NULL) { // nếu node k có bên trái, 
-				//node cần xóa = node cần xóa trỏ đến right (h right đang ở chỗ của node)
-				treeMonHoc = treeMonHoc->right;
+			if (treeMonHoc->left == NULL) {
+				treeMonHoc = treeMonHoc->right; 
 			}
-			else if (treeMonHoc->right == NULL) {// nếu node k có bên phải
-				//node cần xóa = node cần xóa trỏ đến left (h left đang ở chỗ của node)
-				treeMonHoc = treeMonHoc->left;
+			else if (treeMonHoc->right == NULL) {
+				treeMonHoc = treeMonHoc->left; 
 			}
 			else {//node có 2 con
-				//tìm sang bên trái cùng của nhánh phải, chính là node thay thế
+				//tìm sang bên trái cùng của nhánh phải, chính là node thỏa điều kiện thay thế
 				NodeMH* q = treeMonHoc->right; 
 				timNodeTheMang(p, q);
 				
 			}
-			delete p; //xóa node cần xóa, cho cả trường hợp node k có left right (không cần cập nhật liên kết)
+			delete p;
 			return 1;
 		}
 	}
@@ -91,23 +88,20 @@ int xoaMonHocTrongCayByMAMH(TREE& treeMonHoc, char MAMH[15]) {
 void clearTreeMonHoc(TREE& treeMonHoc){
 	while(treeMonHoc!=NULL){
 		{
-			NodeMH* p = treeMonHoc; // node sau này sẽ xóa
+			NodeMH* p = treeMonHoc; // 
 
-			if (treeMonHoc->left == NULL) { // nếu node k có bên trái, 
-				//node cần xóa = node cần xóa trỏ đến right (h right đang ở chỗ của node)
-				treeMonHoc = treeMonHoc->right;
+			if (treeMonHoc->left == NULL) { 
+				treeMonHoc = treeMonHoc->right; 
 			}
-			else if (treeMonHoc->right == NULL) {// nếu node k có bên phải
-				//node cần xóa = node cần xóa trỏ đến left (h left đang ở chỗ của node)
-				treeMonHoc = treeMonHoc->left;
+			else if (treeMonHoc->right == NULL) {
+				treeMonHoc = treeMonHoc->left; 
 			}
 			else {//node có 2 con
-				//tìm sang bên trái cùng của nhánh phải, chính là node thay thế
 				NodeMH* q = treeMonHoc->right;
-				timNodeTheMang(p, q);
+				timNodeTheMang(p, q);//tìm sang bên trái cùng của nhánh phải, chính là node thỏa điều kiện thay thế
 
 			}
-			delete p; //xóa node cần xóa, cho cả trường hợp node k có left right (không cần cập nhật liên kết)
+			delete p;
 		}
 	}
  }

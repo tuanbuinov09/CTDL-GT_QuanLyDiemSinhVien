@@ -12,24 +12,24 @@ int popUpThemSinhVien(ListSinhVien& listSinhVien, char MALOP[15]);
 int popUpSuaSinhVien(ListSinhVien& listSinhVien, char MASV[15]);
 int popUpThemMonHoc(TREE& treeMonHoc);
 int popUpSuaMonHoc(TREE& treeMonHoc, char MAMH_CANSUA[15], IndexListMonHoc& sortedListMonHoc);
-void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch);
-int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi, char MAMH[15]);
-int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi);
-void listSinhVienDangKyTable(LISTDANGKY& listLop, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle);
+void listLopTinChiTable(ListLopTinChi& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch);
+int popUpThemLopTinChi(ListLopTinChi& listLopTinChi, char MAMH[15]);
+int popUpSuaLopTinChi(ListLopTinChi& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi);
+void listSinhVienDangKyTable(ListDangKy& listLop, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle);
 char* popUpNhapMaSinhVien();
 void popUpNhapNienKhoaHocKy(SinhVien sinhvien);
-void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& listLopTinChiSinhVienDaDangKy, IndexListLopTinChi& sortedListLopTinChiSinhVienDaDangKy, SinhVien sinhvien, bool isSearch);
+void listLopTinChiSinhVienDangKyTable(ListLopTinChi& listLopTinChi, ListLopTinChi& listLopTinChiSinhVienDaDangKy, IndexListLopTinChi& sortedListLopTinChiSinhVienDaDangKy, SinhVien sinhvien, bool isSearch);
 void tree_ChonMonHocTable(TREE treeMonHoc, IndexListMonHoc& sortedListMonHoc, bool isSearch);
-void listLopTinChi_ChonLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch);
-void bangDiemLTCTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle);
-void listBangDiemTBSinhVienTable(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
-void listBangDiemTongKetSinhVienTable(DSLOPTINCHI listLopTinChi, IndexListMonHoc& indexListMonHocSVLopDADK, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
+void listLopTinChi_ChonLopTinChiTable(ListLopTinChi& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch);
+void bangDiemLTCTable(ListDangKy& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle);
+void listBangDiemTBSinhVienTable(ListLopTinChi listLopTinChi, TREE treeMonHoc, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
+void listBangDiemTongKetSinhVienTable(ListLopTinChi listLopTinChi, IndexListMonHoc& indexListMonHocSVLopDADK, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]);
 int notificationPopUp(string message);
 
 TREE treeMonHoc;
 ListSinhVien listSinhVien;
 ListLop listLop;
-DSLOPTINCHI listLopTinChi;
+ListLopTinChi listLopTinChi;
 int maxMALOPTC;
 
 string convertToString(char* a)
@@ -179,6 +179,7 @@ void n_box(int x, int y, int width, int height, int backgroundColor, int textCol
 		box(x, y + (i * 4), width, height, backgroundColor, textColor, text[i], TEXT_LEFT);
 	}
 }
+
 void menu(boolean isInit) {
 	ShowCur(0);
 	int x = 2, y = 1, width = 50, height = 3;
@@ -292,7 +293,7 @@ void menu(boolean isInit) {
 				popUpNhapNienKhoaHocKy(sinhvien);
 
 				//trước đây hiển thị các ltc còn mở trong năm hiện tại, h thì chuyển thành nhập niên khóa học kỳ trước
-				//DSLOPTINCHI listLopTinChiTheoNienKhoa;
+				//ListLopTinChi listLopTinChiTheoNienKhoa;
 				//timLopTinChiConMoTheoNienKhoa(listLopTinChi, listLopTinChiTheoNienKhoa, getCurrentYear());
 
 				//IndexListLopTinChi sortedListLopTinChiTheoNienKhoa;
@@ -1475,7 +1476,7 @@ int popUpSuaSinhVien(ListSinhVien& listSinhVien, char MASV[15]) {
 	}
 }
 //=================== BANG DIEM TB CUOI KHOA CUA SV THUOC LOP===================
-void listBangDiemTBSinhVienTable(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
+void listBangDiemTBSinhVienTable(ListLopTinChi listLopTinChi, TREE treeMonHoc, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
 	ShowCur(0);
 	//titleBox(1, 3, "BANG DIEM TB KHOA HOC CUA SV LOP " + convertToString(MALOP));
 	titleBoxLeft(1, 3, "BANG DIEM TB KHOA HOC CUA SV LOP " + convertToString(MALOP));
@@ -1780,7 +1781,7 @@ void listBangDiemTBSinhVienTable(DSLOPTINCHI listLopTinChi, TREE treeMonHoc, Lis
 
 }
 //=================== BANG DIEM TONG KET CUA SV THUOC LOP===================
-void listBangDiemTongKetSinhVienTable(DSLOPTINCHI listLopTinChi, IndexListMonHoc& indexListMonHocSVLopDADK, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
+void listBangDiemTongKetSinhVienTable(ListLopTinChi listLopTinChi, IndexListMonHoc& indexListMonHocSVLopDADK, ListSinhVien& listSinhVien, ListSinhVien& listSinhVienTheoLop, IndexList& sortedListSinhVien, bool isSearch, char MALOP[15]) {
 	ShowCur(0);
 	//titleBox(1, 3, "BANG DIEM TONG KET SV LOP " + convertToString(MALOP));
 	titleBoxLeft(1, 3, "BANG DIEM TONG KET SV LOP " + convertToString(MALOP));
@@ -3521,7 +3522,7 @@ void tree_ChonMonHocTable(TREE treeMonHoc, IndexListMonHoc& sortedListMonHoc, bo
 
 }
 
-void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
+void listLopTinChiTable(ListLopTinChi& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
 	ShowCur(0);
 	/*titleBox(1, 3, "QUAN LY LOP TIN CHI");*/
 	titleBoxLeft(1, 3, "QUAN LY LOP TIN CHI");
@@ -3916,7 +3917,7 @@ void listLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedLi
 
 }
 
-void listLopTinChi_ChonLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
+void listLopTinChi_ChonLopTinChiTable(ListLopTinChi& listLopTinChi, IndexListLopTinChi& sortedListLopTinChi, bool isSearch) {
 	ShowCur(0);
 	//titleBox(1, 3, "DANH SACH LOP TIN CHI");
 	titleBoxLeft(1, 3, "DANH SACH LOP TIN CHI");
@@ -4267,7 +4268,7 @@ void listLopTinChi_ChonLopTinChiTable(DSLOPTINCHI& listLopTinChi, IndexListLopTi
 }
 
 //=================== THEM LOP TIN CHI ===================
-int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi, char MAMH[15]) {
+int popUpThemLopTinChi(ListLopTinChi& listLopTinChi, char MAMH[15]) {
 	ShowCur(1);
 	int height = HEIGHT_POP_UP;
 	int width = WIDTH_POP_UP;
@@ -4276,7 +4277,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi, char MAMH[15]) {
 	int xInput = x + 18;
 	int widthInput = WIDTH_INPUT;
 
-	//char MASV[15]; /*= generateEmployeeId(employeeList);*/
+	//char MASV[15];
 	//char HO[30];
 	//char TEN[10];
 	//bool PHAI;
@@ -4387,8 +4388,8 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi, char MAMH[15]) {
 					// nếu MINSV MAXSV đúng là số
 					if (e5.empty() && e6.empty()) {
 						//kiểm tra xem min có <= max k
-						if (stoi(trim(MINSV_STR)) >= stoi(trim(MAXSV_STR))) {
-							e8 = "MINSV phai <= MAXSV";
+						if (stoi(trim(MINSV_STR)) > stoi(trim(MAXSV_STR))) {
+							e8 = "MINSV khong duoc vuot qua MAXSV";
 							gotoXY(xPointer + 1, iy); cout << e8; iy += 1;
 						}
 					}
@@ -4455,7 +4456,7 @@ int popUpThemLopTinChi(DSLOPTINCHI& listLopTinChi, char MAMH[15]) {
 
 //=================== SUA LOP TIN CHI =================== 
 // MAU DE LAM POP UP
-int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi) {
+int popUpSuaLopTinChi(ListLopTinChi& listLopTinChi, int indexLopTinChiCanSua, IndexListLopTinChi& sortedListLopTinChi) {
 	ShowCur(1);
 	int height = HEIGHT_POP_UP;
 	int width = WIDTH_POP_UP;
@@ -4567,7 +4568,7 @@ int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, Inde
 
 					//kiểm tra xem min có <= max k
 					if (stoi(trim(MINSV_STR)) > stoi(trim(MAXSV_STR))) {
-						e4 = "MINSV phai <= MAXSV";
+						e4 = "MINSV khong duoc vuot qua MAXSV";
 						gotoXY(xPointer + 1, iy); cout << e4; iy += 1;
 					}
 					else {
@@ -4622,7 +4623,7 @@ int popUpSuaLopTinChi(DSLOPTINCHI& listLopTinChi, int indexLopTinChiCanSua, Inde
 
 
 //=================== BANG SINH VIEN DANG KY LOP TC ===================
-void listSinhVienDangKyTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
+void listSinhVienDangKyTable(ListDangKy& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
 	ShowCur(0);
 	//titleBox(1, 3, "DSSV DANG KY LOP: " + tabletitle);
 	titleBoxLeft(1, 3, "DSSV DANG KY LOP: " + tabletitle);
@@ -5162,7 +5163,7 @@ void popUpNhapNienKhoaHocKy(SinhVien sinhvien) {
 					char NIENKHOA[15];
 					strcpy_s(NIENKHOA, trim(NIENKHOA_STR).c_str());
 
-					DSLOPTINCHI listLopTinChiTheoNienKhoaHK;
+					ListLopTinChi listLopTinChiTheoNienKhoaHK;
 					timLopTinChiConMoTheoNienKhoaHK(listLopTinChi, listLopTinChiTheoNienKhoaHK, NIENKHOA, stoi(trim(HOCKY_STR)));
 
 					IndexListLopTinChi sortedListLopTinChiTheoNienKhoaHK;
@@ -5197,7 +5198,7 @@ void popUpNhapNienKhoaHocKy(SinhVien sinhvien) {
 	}
 }
 //=================== DANH SACH LTC SINH VIEN DA DANG KY, CO THE DANG KY TRONG NIEN KHOA HIEN TAI ===========
-void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& listLopTinChiTheoNienKhoa, IndexListLopTinChi& sortedListLopTinChiTheoNienKhoa, SinhVien sinhvien, bool isSearch) {
+void listLopTinChiSinhVienDangKyTable(ListLopTinChi& listLopTinChi, ListLopTinChi& listLopTinChiTheoNienKhoa, IndexListLopTinChi& sortedListLopTinChiTheoNienKhoa, SinhVien sinhvien, bool isSearch) {
 	ShowCur(0);
 	string ttsv = "MASV: " + convertToString(sinhvien.MASV) +
 		"   HO TEN: " + convertToString(sinhvien.HO) + " " + convertToString(sinhvien.TEN) +
@@ -5216,8 +5217,8 @@ void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& l
 	int currentIndex = 0;
 	int row = 12;
 	const int column = 9;
-	string title[column] = { "STT", "MALTC", "MAMH", "NIENKHOA", "HOCKY", "NHOM","DA DK", "SL CON", "SV DA DK"/*, "MINSV", "MAXSV", "HUYLOP"*/ };// chỉ hiện ra lớp còn mở 
-	int cellWidth[column] = { 10, 10, 15, 15, 15, 15, 15 , 15, 15 };
+	string title[column] = { "STT", "MALTC", "TENMH", "NIENKHOA", "HOCKY", "NHOM","DA DK", "SL CON", "SV DA DK"};// chỉ hiện ra lớp còn mở 
+	int cellWidth[column] = { 10, 10, 55, 15, 10, 10, 10 , 10, 10 };
 
 	int iy = y + 2;
 
@@ -5291,7 +5292,11 @@ void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& l
 						coutBox(ix, iy, cellWidth[1], TEXT_LEFT, std::to_string(listLopTinChiTheoNienKhoa.loptinchi[index]->MALOPTC));
 						ix += cellWidth[1];
 
-						coutBox(ix, iy, cellWidth[2], TEXT_LEFT, listLopTinChiTheoNienKhoa.loptinchi[index]->MAMH);
+					/*	coutBox(ix, iy, cellWidth[2], TEXT_LEFT, listLopTinChiTheoNienKhoa.loptinchi[index]->MAMH);
+						ix += cellWidth[2];*/
+						NodeMH* monhoc = timMonHocTheoMaMonHoc(treeMonHoc, listLopTinChiTheoNienKhoa.loptinchi[index]->MAMH);
+
+						coutBox(ix, iy, cellWidth[2], TEXT_LEFT, monhoc->MH.TENMH);
 						ix += cellWidth[2];
 
 						coutBox(ix, iy, cellWidth[3], TEXT_LEFT, sortedListLopTinChiTheoNienKhoa.nodes[k].NIENKHOA);
@@ -5316,6 +5321,8 @@ void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& l
 
 						coutBox(ix, iy, cellWidth[8], TEXT_LEFT, daDangKy == 1 ? "X" : "");
 						ix += cellWidth[8];
+
+					
 						/*coutBox(ix, iy, cellWidth[6], TEXT_LEFT, std::to_string(listLopTinChiSinhVienDaDangKy.loptinchi[index]->MINSV));
 						ix += cellWidth[6];
 
@@ -5592,7 +5599,7 @@ void listLopTinChiSinhVienDangKyTable(DSLOPTINCHI& listLopTinChi, DSLOPTINCHI& l
 }
 
 //=================== BANG DIEM CUA LOP TC ===================
-void bangDiemLTCTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
+void bangDiemLTCTable(ListDangKy& listDangKy, IndexListDangKy& sortedListDangKy, bool isSearch, string tabletitle) {
 	ShowCur(0);
 	//titleBox(1, 3, "BANG DIEM LTC: " + tabletitle);
 	titleBoxLeft(1, 3, "BANG DIEM LTC: " + tabletitle);
@@ -5884,7 +5891,6 @@ void bangDiemLTCTable(LISTDANGKY& listDangKy, IndexListDangKy& sortedListDangKy,
 			if (k == YES) {
 
 			}
-
 
 			clearConsole();
 			bangDiemLTCTable(listDangKy, sortedListDangKy, isSearch, tabletitle);

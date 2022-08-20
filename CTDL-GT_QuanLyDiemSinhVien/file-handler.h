@@ -20,11 +20,11 @@ void readFileSinhVien(ListSinhVien& listSinhVien, ListLop& listLop) {
 	}
 	while (fileIn.eof() != true)
 	{
-		//string sinhVienNumberString;
+
 		SinhVien sinhVien;
 		string temp;
 		getline(fileIn, temp, '|');
-		if (temp.compare("") == 0) break;//stricmp compare char array
+		if (temp.compare("") == 0) break;
 		strcpy_s(sinhVien.MASV, temp.c_str());
 
 		getline(fileIn, temp, '|');
@@ -52,12 +52,9 @@ void readFileSinhVien(ListSinhVien& listSinhVien, ListLop& listLop) {
 		getline(fileIn, temp);//sdt ở cuối k cần '|'
 		strcpy_s(sinhVien.SODT, temp.c_str());
 
-		//getline(fileIn, sinhVienNumberString, '|');
-		//int invoiceNumber = stoi(sinhVienNumberString);
-
 		insertSinhVienOrder(listSinhVien, sinhVien);
-
-		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		//fileIn.ignore();
 	}
 	fileIn.close();
 }
@@ -73,11 +70,11 @@ void readFileMonHoc(TREE& treeMonHoc) {
 	}
 	while (fileIn.eof() != true)
 	{
-		//string sinhVienNumberString;
+		
 		MonHoc monHoc;
 		string temp;
 		getline(fileIn, temp, '|');
-		if (temp.compare("") == 0) break;//stricmp compare char array
+		if (temp.compare("") == 0) break;
 		strcpy_s(monHoc.MAMH, temp.c_str());
 
 		getline(fileIn, temp, '|');
@@ -89,11 +86,9 @@ void readFileMonHoc(TREE& treeMonHoc) {
 		getline(fileIn, temp);//tên mh ở cuối k cần '|'
 		strcpy_s(monHoc.TENMH, temp.c_str());
 
-		//getline(fileIn, sinhVienNumberString, '|');
-		//int invoiceNumber = stoi(sinhVienNumberString);
-
 		themMonHocVaoCay(treeMonHoc, monHoc);
-		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		//fileIn.ignore();
 
 	}
 	fileIn.close();
@@ -113,7 +108,7 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 		DangKy dangky;
 		string temp;
 		getline(fileIn, temp, '|');
-		if (temp.compare("") == 0) break;//stricmp compare char array
+		if (temp.compare("") == 0) break;
 		int maltc = stoi(temp);
 		//
 		//int flag = 0;
@@ -131,12 +126,13 @@ void readFileDanhsachDangKyTheoLopTinChi(LopTinChi& lopTinChi) {
 		{
 			themVaoListDangKy(lopTinChi.DSDK, dangky);
 		}
-		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		//fileIn.ignore();
 	}
 	fileIn.close();
 }
 
-int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
+int readFileLopTinChi(ListLopTinChi& listLopTinChi) {
 
 	ifstream fileIn;
 	fileIn.open("data/DSLOPTC.txt", ios_base::in);
@@ -152,7 +148,7 @@ int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 		LopTinChi lopTinChi;
 		string temp;
 		getline(fileIn, temp, '|');
-		if (temp.compare("") == 0) break;//stricmp compare char array
+		if (temp.compare("") == 0) break;
 		lopTinChi.MALOPTC = stoi(temp);// stoi chuyeenr thanh int
 		maxMALOPTC = lopTinChi.MALOPTC;
 		getline(fileIn, temp, '|');
@@ -182,7 +178,8 @@ int readFileLopTinChi(DSLOPTINCHI& listLopTinChi) {
 
 		readFileDanhsachDangKyTheoLopTinChi(lopTinChi);
 		insertLopTinChiOrderByMaLTC(listLopTinChi, lopTinChi);
-		//fileIn.ignore();// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		// dùng khi dòng có ngăn cách ở cuối cùng, bỏ qua 1 kí tự ấy // ví dụ nếu a|b|cd| thì cần, a|b|cd thì k
+		//fileIn.ignore();
 	}
 	fileIn.close();
 	return maxMALOPTC; // trả về maxMALOPTC
@@ -213,7 +210,7 @@ void writeFileSinhVien(ListSinhVien& listSinhVien) {
 
 
 //=================== GHI FILE LOP TIN CHI ===================
-void writeFileLopTinChi(DSLOPTINCHI& listLopTinChi) { // ghi cả dsdk
+void writeFileLopTinChi(ListLopTinChi& listLopTinChi) { // ghi cả dsdk
 	fstream fileDSLTCOut;
 	fileDSLTCOut.open("data/DSLOPTC.txt", ios_base::out);
 	fstream fileDSDKOut;
