@@ -112,21 +112,6 @@ void clearListSinhVien(ListSinhVien& listSinhVien) {
 
 //==================== KIEM TRA DU LIEU NHAP VAO ====================
 
-//TAO MA SINH VIEN
-//char[] generateMaSinhVien(ListSinhVien& listSinhVien) {
-//	char employeeId = "NVxxx";
-//	do
-//	{
-//		srand(time(NULL));
-//		for (int i = 2; i < employeeId.length(); i++) {
-//			employeeId[i] = rand() % (57 - 48 + 1) + 48;
-//		}
-//	} while (searchEmployee(employeeList, employeeId) != -1);
-//
-//	return employeeId;
-//}
-
-
 int xoaSinhVienTheoMaSV(ListSinhVien& listSinhVien, char MASV[15])
 {
 	if (listSinhVien.number == 0)
@@ -247,4 +232,5 @@ int timIndexSinhVienTheoMASV(ListSinhVien listSinhVien, char MASV_CANTIM[15]) {
 			return index;
 		}
 	}
+	return index;
 }

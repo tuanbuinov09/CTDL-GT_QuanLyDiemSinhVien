@@ -29,7 +29,6 @@
 #define TEXT_CENTER 0
 #define TEXT_RIGHT 1
 
-
 #define UP 72
 #define DOWN 80
 #define LEFT 75
@@ -66,19 +65,6 @@ struct ListSinhVien {
 	SinhVien* sinhvien[MAXDSSV];
 };
 
-struct Index {
-	int index; //vi tri cua sinh vien trong danh sach sinh vien
-	char HO[30]; //Ho Va Ten Lot
-	char TEN[10]; //ten
-
-};
-
-struct IndexList { //DANH SACH TUYEN TINH CAP PHAT DONG
-	int number = 0;
-	Index* nodes;
-};
-
-
 /*
 * — Cau truc Danh Sach Dang Ky —
 */
@@ -94,20 +80,7 @@ struct NodeDK {
 	NodeDK* next;
 };
 
-typedef NodeDK* LISTDANGKY;
-
-struct IndexDangKy {
-	int index; 
-	char MASV[15]; //Ma sinh Vien
-	char HO[30];
-	char TEN[10];
-	float DIEM;
-};
-
-struct IndexListDangKy { //
-	int number = 0;
-	IndexDangKy* nodes;
-};
+typedef NodeDK* ListDangKy;
 
 /*
 * — Cau truc Danh Sach Lop Tin Chi —
@@ -121,24 +94,16 @@ struct LopTinChi {
 	int NHOM; //Nhom
 	int MINSV; //So Sinh Vien Toi Thieu
 	int MAXSV; //So Sinh Vien Toi Da
-	bool HUYLOP; //(true= Giu lop; false= xoa lop)
-	LISTDANGKY DSDK;
+	bool HUYLOP; //(false= con mo ; true= da huy)
+
+	ListDangKy DSDK;
 };
 
-struct DSLOPTINCHI {
+struct ListLopTinChi {
 	int number = 0;
 	LopTinChi* loptinchi[MAXLOPTINCHI];
 };
 
-struct IndexLopTinChi {
-	int index; //vi tri cua mon hoc trong cay mon hoc
-	char NIENKHOA[15];
-};
-
-struct IndexListLopTinChi { //
-	int number = 0;
-	IndexLopTinChi* nodes;
-};
 
 /*
 * — Cau truc Danh Sach Mon Hoc —
@@ -153,23 +118,10 @@ struct MonHoc {
 
 struct NodeMH {
 	MonHoc MH;
-	int bf;
+	
 	NodeMH* left, * right;
 };
 typedef NodeMH* TREE;
-
-struct IndexMonHoc {
-	int index; //vi tri cua mon hoc trong cay mon hoc
-	char MAMH[15]; //Ma lop
-	char TENMH[50];
-	int STCLT;
-	int STCTH;
-};
-
-struct IndexListMonHoc { //
-	int number = 0;
-	IndexMonHoc* nodes;
-};
 
 /*
 * — Cau truc Danh Sach Lop —
@@ -184,6 +136,12 @@ struct ListLop {
 	Lop* lop[200];
 };
 
+
+
+
+
+
+//Index Lop
 struct IndexLop {
 	int index; //vi tri cua lop trong ds lop
 	char MALOP[15]; //Ma lop
@@ -194,3 +152,55 @@ struct IndexListLop { //
 	IndexLop* nodes;
 };
 
+//Index SInhVien
+struct Index {//IndexSinhVien
+	int index; //vi tri cua sinh vien trong danh sach sinh vien
+	char HO[30]; //Ho Va Ten Lot
+	char TEN[10]; //ten
+
+};
+
+
+struct IndexList { //IndexListSinhVien DANH SACH TUYEN TINH CAP PHAT DONG
+	int number = 0;
+	Index* nodes;
+};
+
+//Index dangky
+struct IndexDangKy {
+	int index; //
+	char MASV[15]; //Ma sinh Vien
+	char HO[30];
+	char TEN[10];
+	float DIEM;
+};
+
+struct IndexListDangKy { //
+	int number = 0;
+	IndexDangKy* nodes;
+};
+
+//Index Monhoc
+struct IndexMonHoc {
+	int index; //vi tri
+	char MAMH[15]; //Ma lop
+	char TENMH[50];
+	int STCLT;
+	int STCTH;
+};
+
+struct IndexListMonHoc { //
+	int number = 0;
+	IndexMonHoc* nodes;
+};
+
+//Index LopTinCHi
+struct IndexLopTinChi {
+	int index; //vi tri trong listLopTinChi
+	char NIENKHOA[15];
+};
+
+struct IndexListLopTinChi { //
+	int number = 0;
+	IndexLopTinChi* nodes;
+};

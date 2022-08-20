@@ -48,6 +48,7 @@ bool isIndexListLopEmpty(IndexListLop& indexListLop) {
 
 void searchListLopByMaLop(ListLop& listLop, IndexListLop& indexListLop, string maLop) {
 	indexListLop.number = 0;
+	indexListLop.nodes = new IndexLop[listLop.number];
 
 	for (int i = 0; i < listLop.number; i++) {
 		char* output = NULL;
@@ -80,10 +81,6 @@ void clearIndexListLop(IndexListLop& indexListLop) {
 }
 
 void clearListLop(ListLop& listLop) {
-	/*while (listSinhVien.number != 0) {
-		deleteItem(listSinhVien, 0);
-	}
-	listSinhVien.number = 0;*/
 	for (int i = 0; i < listLop.number; i++) {
 		delete listLop.lop[i];
 	}

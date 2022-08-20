@@ -5,16 +5,16 @@ using namespace std;
 #include "string"
 
 //KIEM TRA DANH SACH RONG
-bool isListDangKyEmpty(LISTDANGKY& first) {
+bool isListDangKyEmpty(ListDangKy& first) {
 	if (first == NULL) return true;
 	return false;
 }
-LISTDANGKY initListDangKy() {
-	LISTDANGKY DSDK = NULL;
+ListDangKy initListDangKy() {
+	ListDangKy DSDK = NULL;
 	return DSDK;
 }
 //Them tat ca cac truong hop trong danh sach dang ky
-void themVaoListDangKy(LISTDANGKY& first, DangKy dangky)
+void themVaoListDangKy(ListDangKy& first, DangKy dangky)
 {
 	NodeDK* p = new NodeDK;
 	NodeDK* t = new NodeDK;
@@ -34,20 +34,20 @@ void themVaoListDangKy(LISTDANGKY& first, DangKy dangky)
 	}
 }
 
-void duyetListDangKy(LISTDANGKY first) {
+void duyetListDangKy(ListDangKy first) {
 	for (NodeDK* k = first; k != NULL; k = k->next) {
 		cout << k->dangky.MASV << " ";
 	}
 	cout << "\n";
 }
-int laySoLuongSVDaDK(LISTDANGKY first) {
+int laySoLuongSVDaDK(ListDangKy first) {
 	int dem = 0;
 	for (NodeDK* k = first; k != NULL; k = k->next) {
 		dem++;
 	}
 	return dem;
 }
-void listDangKyToIndexListDangKy(LISTDANGKY listDangKy, IndexListDangKy& indexListDangKy, int MAXSV, ListSinhVien listSinhVien)
+void listDangKyToIndexListDangKy(ListDangKy listDangKy, IndexListDangKy& indexListDangKy, int MAXSV, ListSinhVien listSinhVien)
 {
 	indexListDangKy.number = 0;
 	indexListDangKy.nodes = new IndexDangKy[MAXSV];
@@ -98,7 +98,7 @@ bool isSortedListDangKyEmpty(IndexListDangKy& sortedListDangKy) {
 	return sortedListDangKy.number == 0 ? true : false;
 }
 
-int kiemTraSinhVienCoDangKy(LISTDANGKY listDangKy, char MASV[15])
+int kiemTraSinhVienCoDangKy(ListDangKy listDangKy, char MASV[15])
 {
 	for (NodeDK* k = listDangKy; k != NULL; k = k->next) {
 		if (strcmp(k->dangky.MASV, MASV) == 0){
@@ -108,7 +108,7 @@ int kiemTraSinhVienCoDangKy(LISTDANGKY listDangKy, char MASV[15])
 	return 0;
 }
 
-float layDiemCuaSinhVienTrongDSDK(LISTDANGKY listDangKy, char MASV[15])
+float layDiemCuaSinhVienTrongDSDK(ListDangKy listDangKy, char MASV[15])
 {
 	for (NodeDK* k = listDangKy; k != NULL; k = k->next) {
 		if (strcmp(k->dangky.MASV, MASV) == 0) {
